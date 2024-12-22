@@ -1,0 +1,40 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.user{
+  width: 100%;
+}
+.Left-part {
+  background-color: rgb(20, 20, 48);
+  color: rgb(223, 213, 213);
+  width: 19%;
+  min-height: 100vh;
+  
+}
+
+.user-menu p {
+  text-align: center;
+  color: rgb(223, 213, 213);
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.user-menu p:hover {
+  background-color: rgb(49, 45, 45);
+}
+
+.Left-part .user-menu p.active {
+  background-color: rgb(49, 45, 45);
+}
+
+.list{
+   font-weight: bolder;
+   font-size: 100px;
+}
+.wholepage{
+  display: flex;
+  
+}

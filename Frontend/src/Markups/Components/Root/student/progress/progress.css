@@ -1,0 +1,81 @@
+/* progress.css */
+
+body{
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Disabling horizontal overflow */
+}
+
+.contentt {
+  padding: 0px;
+  min-width:fit-content;
+  margin: 0; /* Remove top margin */
+}
+
+.content .back a {
+  text-decoration: none;
+  color: black;
+  font-size: 1.6rem;
+}
+
+.content .back a i {
+  font-size: 1.1rem;
+}
+
+.view {
+  min-height: fit-content;
+  margin-top: 3rem;
+}
+
+.view .title {
+  margin-top: 0;
+  height:60px;
+  width: 100%;
+  font-size: 1.4rem;
+  padding:20px;
+  display: grid;
+  font-weight: 900;
+  color: black;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  background-color:#F5F5F5;
+    
+}
+
+.view .value {
+  background-color: #fff;
+  color: #019878;
+  font-weight: 200;
+}
+
+.view .title a {
+  text-decoration: none;
+}
+
+.status_bar {
+  width: 100%;
+  height: 30px;
+  background-color: #585252;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+}
+
+.status_bar_inner {
+  height: 100%;
+  background-color: #4caf50;
+  transition: width 0.3s ease-in-out;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.status_bar_text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #ffffff;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+}

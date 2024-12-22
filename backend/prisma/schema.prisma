@@ -1,0 +1,157 @@
+// Define generator and datasource
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["clientExtensions"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Define enums
+enum UserRole {
+  ADMIN
+  DEPARTMENT
+  CAFE
+  POLICE
+  LIBRARY
+  GARD
+  PROCTOR
+  SUPERPROCTOR
+  REGISTRAR
+  STUDENT
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+// Define model for users
+model User {
+  id            Int       @id @default(autoincrement())
+  email         String    @unique
+  role          UserRole  @default(STUDENT)
+  password      String
+  activeStatus  Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  otp           String?
+  // Ref
+  profile       UserProfile?
+  studentProfile  StudentProfile?
+  request   ClearanceRequest[]
+  result    RequestResult[]
+  clearance Clearance[]
+  reports  Reports[]
+}
+
+// Define model for user profiles
+model UserProfile {
+  id          Int      @id @default(autoincrement())
+  userId      Int      @unique
+  firstName   String
+  middleName  String?
+  lastName    String
+  sex         Gender
+  imageUrl    String? 
+  // Reference
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Define model for student profiles
+model StudentProfile {
+  id               Int      @id @default(autoincrement())
+  userId           Int      @unique
+  studentId         String      @unique
+  faculty          String
+  department       String
+  academicYear     String
+  // Reference
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  report Reports[]
+}
+
+// Define model for clearance requests
+model ClearanceRequest {
+  id           Int       @id @default(autoincrement())
+  userId       Int       @unique
+  reason       String
+  academicYear String
+  semester  String
+  createdAt    DateTime  @default(now())
+  status       String
+  isDepartment  Boolean   @default(false)
+  isCafe        Boolean   @default(false)
+  isPolice      Boolean   @default(false)
+  isLibrary     Boolean   @default(false)
+  // isGard        Boolean   @default(false)
+  isProctor     Boolean   @default(false)
+  isSuperproctor Boolean  @default(false)
+  isRegistrar   Boolean   @default(false)
+  ReasonDepartment  String?
+  ReasonCafe        String?
+  ReasonPolice      String?
+  ReasonLibrary     String?
+  ReasonProctor     String?
+  ReasonSuperproctor String?
+  ReasonRegistrar   String?
+  // Reference
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  result RequestResult?
+}
+
+// Define model for request results
+model RequestResult {
+  id           Int       @id @default(autoincrement())
+  requestId    Int        @unique
+  userId       Int   
+  result       String
+  description  String
+  createdAt    DateTime  @default(now())
+  // Reference
+  request      ClearanceRequest @relation(fields: [requestId], references: [id])
+  user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Define model for clearances
+model Clearance {
+  id         Int       @id @default(autoincrement())
+  requestId  Int        @unique
+  userId       Int  
+  academicYear     String
+  semester  String
+  createdAt  DateTime  @default(now())
+   user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+}
+
+
+model Reports{
+    id         Int       @id @default(autoincrement())
+    studentId     String     
+    reporterId  Int
+    reson String
+    Department  Boolean   @default(false)
+    Cafe        Boolean   @default(false)
+    Police      Boolean   @default(false)
+    Library     Boolean   @default(false)
+    // Gard        Boolean   @default(false)
+    Proctor     Boolean   @default(false)
+    Superproctor Boolean  @default(false)
+    Registrar   Boolean   @default(false)
+    DepartmentReason String?
+    CafeReason       String?
+    PoliceReason     String?
+    LibraryReason    String?
+    // GardReason       String?
+    ProctorReason    String?
+    SuperproctorReason String?
+    RegistrarReason  String?
+    //ref
+    student   StudentProfile @relation(fields: [studentId],references: [studentId])
+    report   User @relation(fields: [reporterId],references: [id])
+}
+
+
+

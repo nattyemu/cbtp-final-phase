@@ -1,0 +1,116 @@
+/* clearance.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-y: none;
+  overflow-x: none;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  justify-content: center;
+  margin: 10px auto; /* Center the content horizontally */
+  padding: 20px;
+  background-color: hwb(0 100% 0% / 0.808);
+  -webkit-box-shadow: 5px 5px 15px 5px #000000;
+  /* box-shadow: 5px 5px 15px 5px #000000; */
+  width: 45%;
+  min-width: 320px; /* Adjust the width as needed */
+}
+
+.back a {
+  text-decoration: none;
+  color: black;
+  font-size: 1.6rem;
+}
+
+.back a i {
+  font-size: 1.1rem;
+}
+
+/* .h2 {
+  text-align: center;
+}
+*/
+.student_info {
+  text-align: center;
+}
+
+.describetion {
+  text-align: center;
+}
+
+.status {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  row-gap: 15px;
+}
+
+.library {
+  margin: 0 10px;
+}
+
+.check {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.cleared {
+  color: green !important; /* Ensure this style is applied */
+}
+
+.not_cleared {
+  color: red !important; /* Ensure this style is applied */
+}
+
+.last_status {
+  margin-bottom: 0;
+}
+
+.printButton {
+  text-align: center;
+}
+
+.content h5 {
+  color: rgb(34, 5, 140);
+}
+
+.p_status {
+  margin: 0;
+  color: rgb(34, 5, 140);
+  text-align: center;
+  font-weight: bold;
+  padding: auto;
+}
+
+.center {
+  top: 0;
+  margin: 0px;
+}
+
+.library {
+  margin: 0 10px;
+  text-align: left; /* Align text to the left */
+}
+
+/* New styles for PDF document */
+.slipHeader {
+padding-bottom: 10px;
+  font-size: 16px;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.slipSubheader {
+padding: 5px;
+  font-size: 14px;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.slipText {
+  font-size: 12px;
+  font-family: "Times New Roman", Times, serif;
+}

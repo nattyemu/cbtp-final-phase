@@ -1,0 +1,106 @@
+/* Style for request container */
+.request-container {
+     margin: 40px;
+     min-width: fit-content;
+     margin: 0 auto;
+     padding: 20px;
+     align-items: center;
+     
+   }
+   
+   /* Style for header */
+   .header {
+     text-align: center;
+     margin-bottom: 20px;
+   }
+   
+   .header button {
+     background-color: #008cba;
+     color: white;
+     padding: 10px 20px;
+     border: none;
+     border-radius: 4px;
+     cursor: pointer;
+   }
+   
+   .header button:hover {
+     background-color: #005f6b;
+   }
+   
+   /* Style for content */
+   .content {
+     align-items: center;
+   }
+   
+   /* Style for form elements */
+   .request-form label {
+     display: block;
+     margin-bottom: 10px;
+     color:hsl(240, 62%, 58%);
+   }
+   
+   .request-form select,
+   .request-form textarea {
+     width: 100%;
+     padding: 8px;
+     margin-bottom: 10px;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+     box-sizing: border-box;
+   }
+   
+   .request-form textarea {
+     resize: vertical; /* Allow vertical resizing of textarea */
+   }
+   
+   /* Style for error message */
+   .request-form .error-message {
+     color: red;
+     margin-top: 5px;
+   }
+   
+   /* Style for buttons */
+   .request-form input[type="reset"],
+   .request-form input[type="submit"],
+   .request-form button {
+     padding: 10px 20px;
+     border: none;
+     border-radius: 4px;
+     cursor: pointer;
+   }
+   
+   .request-form input[type="reset"],
+   .request-form input[type="submit"] {
+     margin-right: 10px;
+   }
+   
+   /* Style for Send Request button */
+   .request-form .submit-button {
+     background-color: rgb(22, 22, 190);
+     color: white;
+   }
+   
+   .request-form .submit-button:hover {
+     background-color: #45a049;
+   }
+   
+   /* Style for Cancel button */
+   .request-form .reset-button {
+     background-color: rgb(75, 5, 5);
+     color: white;
+   }
+   
+   .request-form .reset-button:hover {
+     background-color: darkred;
+   }
+   
+   /* Display buttons horizontally */
+   .request-form .button-container {
+     display: flex;
+     justify-content: space-around;
+     margin-top: 20px;
+   }
+   .request-form.option{
+       color:rgb(110, 110, 240);
+   
+   }

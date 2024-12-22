@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Form</title>
+</head>
+<body>
+  <h2>Login Form</h2>
+  <form id="loginForm">
+    <label for="email">Email:</label>
+    <input type="text" id="username" name="email" required><br><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br><br>
+    <input type="submit" value="Login">
+  </form>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent the form from submitting normally
+
+      // Get the form data
+      const formData = new FormData(event.target);
+
+      // Create an object from the form data
+      const loginData = {};
+      formData.forEach(function(value, key) {
+        loginData[key] = value;
+      });
+      console.log(loginData);
+      // Send the POST request to the API
+      fetch("https://https://final-year-project-backend-76be.onrender.com/api/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(loginData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Handle the API response
+        console.log(data); // Replace with your own logic
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
+    });
+  </script>
+</body>
+</html>

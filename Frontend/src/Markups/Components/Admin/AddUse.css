@@ -1,0 +1,149 @@
+.add-user {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .shadow {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #ffffff;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .fs-2 {
+    font-size: 1.5rem;
+  }
+  
+  .fw-bold {
+    font-weight: bold;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .d-flex {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .me-5 {
+    margin-right: 5px;
+  }
+  
+  input[type='text'],
+  input[type='password'],
+  select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button[type='submit'] {
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button[type='submit']:hover {
+    background-color: #0056b3;
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  /* Optional: Add some spacing and alignment for the gender select */
+  #sex {
+    margin-top: 5px;
+  }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  .add-user {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .add-user-container {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #ffffff;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .fs-2 {
+    font-size: 1.5rem;
+  }
+  
+  .fw-bold {
+    font-weight: bold;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .d-flex {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .me-5 {
+    margin-right: 5px;
+  }
+  
+  input[type='text'],
+  input[type='password'],
+  select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button[type='submit'] {
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button[type='submit']:hover {
+    background-color: #0056b3;
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  #sex {
+    margin-top: 5px;
+  }
+  

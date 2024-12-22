@@ -1,0 +1,95 @@
+.request-detail {
+  padding-top: 0;
+  margin: 40px;
+  padding: 40px;
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+.request-detail h2 {
+  color: #0808cd;
+  text-align: center;
+}
+.detail-item {
+  margin-bottom: 15px;
+}
+
+.label {
+  font-weight: bold;
+  color: hsl(240, 62%, 58%);
+}
+
+.value {
+  margin-left: 10px;
+  color: #666;
+}
+
+.approve-button {
+  background-color: hsl(122, 75%, 60%); /* Green */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-right: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.reject-button {
+  background-color: hsl(11, 79%, 68%); /* Green */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-right: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.approve-button:hover {
+  background-color: hsl(123, 72%, 35%); /* Darker Green */
+}
+
+.reject-button:hover {
+  background-color: #c8170b; /* Darker Red */
+}
+.request-detail {
+  padding: 20px;
+}
+
+.detail-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.detail-table th,
+.detail-table td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.detail-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.approve-button,
+.reject-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  background-color: #4caf50;
+  color: white;
+  font-size: 16px;
+}
+
+.reject-button {
+  background-color: #f44336;
+}
