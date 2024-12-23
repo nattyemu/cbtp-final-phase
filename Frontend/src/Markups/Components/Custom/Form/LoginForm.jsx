@@ -37,48 +37,45 @@ function LoginForm() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: "", password: "" });
   const navigate = useNavigate();
-
   // Validation for email format
   const validateEmail = (email) => {
+    // This pattern ensures valid emails like menge@gmail.com are allowed
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
   };
-  const checkIfLogin = async () => {
-    const data = await getAuth();
-    // console.log(userData);
-    // console.log(isLogged);
-    if (!isLogged) {
-      return navigate("/login");
-    }
-    // console.log(data)
-    // navigate acocording to user role
-    return navigateToRolePage(data);
-  };
+
   const handleEmailChange = (e) => {
     let email = e.target.value;
     let errorMessage = "";
 
+    // Check for basic validation rules
     if (email && email.length <= 3) {
       errorMessage = "Email must be greater than 3 characters";
     } else if (email && email.indexOf("@") === -1) {
       errorMessage = 'Email must contain "@"';
     } else if (email && email.indexOf("@") !== email.lastIndexOf("@")) {
       errorMessage = 'Email must contain only one "@"';
-    } else if (email && email.indexOf("@") > email.lastIndexOf(".")) {
-      errorMessage = " Expected format: example@gmail.com";
+    } else if (email && email.lastIndexOf(".") < email.indexOf("@")) {
+      errorMessage = "Expected format: example@gmail.com";
     }
 
+    // Update the form state
     setForm({ ...form, email });
+
+    // Validate the email format using the updated regex
     if (!validateEmail(email)) {
-      setErrors({ ...errors, email: errorMessage });
+      setErrors({
+        ...errors,
+        email: errorMessage || "Please enter a valid email address",
+      });
     } else {
-      setErrors({ ...errors, email: "Please enter a valid email address" });
+      setErrors({ ...errors, email: "" }); // Clear the error if the email is valid
     }
   };
 
   const validatePassword = (password) => {
-    if (password.length < 8) {
-      return "Password must be at least 8 characters long";
+    if (password.length < 8 || password.length > 54) {
+      return "Password must be bettween 8 and 54 characters long";
     }
     return "";
   };
@@ -150,40 +147,46 @@ function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate form before proceeding
+    if (!validateForm()) {
+      toast.error("Please fix the errors in the form before submitting.");
+      return; // Prevent submission if validation fails
+    }
+
     if (isLogged) {
       console.log("check");
       checkIfLogin();
     }
-    if (validateForm()) {
-      try {
-        const response = await UserService.login(form);
-        if (response?.success) {
-          localStorage.setItem(
-            "user",
-            JSON.stringify({ userToken: response?.token })
-          );
-          // console.log(response);
-          // toast.success(response.message);
 
-          // Update context and navigate based on the user's role
-          // Assuming response contains user data
-          navigateToRolePage(response?.data);
-        } else {
-          toast.error(response.message);
-        }
-      } catch (error) {
-        toast.error(error.message);
+    try {
+      const response = await UserService.login(form);
+      if (response?.success) {
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ userToken: response?.token })
+        );
+        toast.success(response.message);
+
+        // Update context and navigate based on the user's role
+        navigateToRolePage(response?.data);
+      } else {
+        toast.error(response.message, { position: "top-center" });
       }
+    } catch (error) {
+      toast.error(error.message, { position: "top-center" });
     }
   };
 
   return (
-    <div className="container">
-      <div className="login-box">
-        <h2>Login</h2>
-        <form autoComplete="off" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="userName">Email</label>
+    <div className=" bg-slate-100 w-screen h-screen mx-auto flex justify-center items-center shadow-xl">
+      <div className="login-box w-full shadow-xl">
+        <h2 className="text-3xl font-bold text-black">Login</h2>
+        <form autoComplete="off" onSubmit={handleSubmit} className="w-full">
+          <div className="form-group w-full">
+            <label htmlFor="userName" className="mb-3">
+              Email
+            </label>
             <input
               type="text"
               className={`form-control ${errors.email ? "is-invalid" : ""}`}
@@ -194,11 +197,15 @@ function LoginForm() {
               onChange={handleEmailChange}
             />
             {errors.email && (
-              <div className="invalid-feedback">{errors.email}</div>
+              <div className="invalid-feedback text-red-600">
+                {errors.email}
+              </div>
             )}
           </div>
           <div className="form-group">
-            <label htmlFor="userPassword">Password</label>
+            <label htmlFor="userPassword" className="mb-3">
+              Password
+            </label>
             <input
               type="password"
               className={`form-control ${errors.password ? "is-invalid" : ""}`}
@@ -209,13 +216,15 @@ function LoginForm() {
               onChange={handlePasswordChange}
             />
             {errors.password && (
-              <div className="invalid-feedback">{errors.password}</div>
+              <div className="invalid-feedback text-red-600">
+                {errors.password}
+              </div>
             )}
           </div>
           <div className="form-group">
-            <Link to="/forgetPassword" className="forgot-password-link">
+            {/* <Link to="/forgetPassword" className="forgot-password-link">
               Forgot Password?
-            </Link>
+            </Link> */}
           </div>
           <button type="submit" className="primary py-2">
             Login

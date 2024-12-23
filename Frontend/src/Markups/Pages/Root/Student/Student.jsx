@@ -45,7 +45,7 @@ function Student() {
     <div className="m-3">
       <div className="">
         <div className="flex ">
-          <div className="flex gap-2 m-2 p-4">
+          <div className="flex gap-2 bg-black  h-[100vh]">
             <div className="flex flex-col">
               <div className="flex flex-col sm:gap-1 md:gap-3 lg:gap-5 ">
                 <img

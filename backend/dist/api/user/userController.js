@@ -468,14 +468,9 @@ const usersController = {
       });
       const sendRole = user?.role;
       if (!user) {
-        return next(
-          new UnprocessableEntity(
-            "No account found with this email",
-            403,
-            ErrorCode.USER_NOT_FOUND,
-            null
-          )
-        );
+        return res
+          .status(400)
+          .json({ message: "Invalid credentioanl", success: false });
       }
 
       // Compare the provided password with the stored hashed password
