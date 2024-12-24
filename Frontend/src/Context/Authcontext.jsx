@@ -23,7 +23,7 @@ export const UseProvider = ({ children }) => {
 
   useEffect(() => {
     fetchData();
-    fetchMyData();
+    // fetchMyData();
   }, []);
 
   const fetchData = async () => {
@@ -57,10 +57,11 @@ export const UseProvider = ({ children }) => {
       setUserData(loggedInUser);
     }
   };
-  const fetchMyData = async () => {
-    const res = await AuthService.getMy();
-    // console.log(res);
-  };
+  // const fetchMyData = async () => {
+  //   // have to be pass the id as body
+  //   const res = await AuthService.getMy();
+  //   // console.log(res);
+  // };
 
   const values = {
     setIsLogged,
