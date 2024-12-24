@@ -91,7 +91,7 @@ function RequestDetail() {
       const form = {
         role: data?.role,
         studentId: studentId,
-        reason: rejectReason,
+        reason: rejectReason.trim(),
       };
 
       response = await AuthService.reject(form, id);
@@ -242,9 +242,11 @@ function RequestDetail() {
                 minLength={6}
                 onChange={(e) => {
                   const value = e.target.value;
-                  setRejectReason(e.target.value);
-                  // Only update the state if the input length is within the range
-                  setIsValid(value.length >= 6 && value.length <= 125);
+                  const trimmedValue = value.trim();
+                  setRejectReason(value);
+                  setIsValid(
+                    trimmedValue.length >= 6 && trimmedValue.length <= 225
+                  );
                 }}
                 placeholder="Enter rejection reason"
               />
