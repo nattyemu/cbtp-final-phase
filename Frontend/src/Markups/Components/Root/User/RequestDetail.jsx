@@ -22,6 +22,7 @@ function RequestDetail() {
   const [rejectReason, setRejectReason] = useState(""); // State to store reject reason
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [isValid, setIsValid] = useState(false);
   const { id } = useParams();
 
   useEffect(() => {
@@ -230,24 +231,36 @@ function RequestDetail() {
           <AlertDialog open={rejectOpen} onOpenChange={setRejectOpen}>
             <AlertDialogContent>
               <AlertDialogTitle>Reject Request</AlertDialogTitle>
-              <AlertDialogDescription>
+              <AlertDialogDescription className="text-gray-600">
                 Please provide a reason for rejecting this request:
               </AlertDialogDescription>
               <input
                 type="text"
                 className="form-input"
                 value={rejectReason}
-                onChange={(e) => setRejectReason(e.target.value)}
+                maxLength={125}
+                minLength={6}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setRejectReason(e.target.value);
+                  // Only update the state if the input length is within the range
+                  setIsValid(value.length >= 6 && value.length <= 125);
+                }}
                 placeholder="Enter rejection reason"
               />
               <div className="flex justify-end mt-4">
-                <AlertDialogCancel onClick={() => setRejectOpen(false)}>
+                <AlertDialogCancel
+                  onClick={() => {
+                    setRejectOpen(false);
+                    setRejectReason("");
+                  }}
+                >
                   Cancel
                 </AlertDialogCancel>
                 <AlertDialogAction
                   className="ml-2 bg-red-200 hover:bg-red-300 text-black"
                   onClick={rejectionRequest}
-                  disabled={!rejectReason}
+                  disabled={!isValid}
                 >
                   Confirm Rejection
                 </AlertDialogAction>
