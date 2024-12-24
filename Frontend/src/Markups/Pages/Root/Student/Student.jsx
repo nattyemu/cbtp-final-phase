@@ -80,11 +80,7 @@ function Student() {
           <div className="flex flex-1 justify-center m-4">
             {showRequest && <Request />}
             {showProgress && <ViewProgress />}
-            {showClerance && (
-              <p>
-                <Clerance />
-              </p>
-            )}
+            {showClerance && <Clerance />}
           </div>
         </div>
       </div>
