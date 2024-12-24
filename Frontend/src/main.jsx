@@ -116,7 +116,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <UseProvider>
     <ToastProvider>
       <RouterProvider router={router} />
-      <ToastContainer />
+      <ToastContainer position="top-center" />
     </ToastProvider>
   </UseProvider>
 );
