@@ -43,6 +43,17 @@ function LoginForm() {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
   };
+  const checkIfLogin = async () => {
+    const data = await getAuth();
+    // console.log(userData);
+    // console.log(isLogged);
+    if (!isLogged) {
+      return navigate("/login");
+    }
+    // console.log(data)
+    // navigate acocording to user role
+    return navigateToRolePage(data);
+  };
 
   const handleEmailChange = (e) => {
     let email = e.target.value;
