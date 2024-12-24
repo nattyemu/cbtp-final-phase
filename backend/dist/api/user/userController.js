@@ -470,7 +470,7 @@ const usersController = {
       if (!user) {
         return res
           .status(400)
-          .json({ message: "Invalid credentioanl", success: false });
+          .json({ message: "Invalid credential", success: false });
       }
 
       // Compare the provided password with the stored hashed password
@@ -478,7 +478,7 @@ const usersController = {
       if (!isMatch) {
         return res
           .status(400)
-          .json({ message: "Invalid credentioanl", success: false });
+          .json({ message: "Invalid credential", success: false });
       }
 
       // Retrieve user profile data if it exists
@@ -546,7 +546,7 @@ const usersController = {
       return res.status(200).json({
         token,
         data: userProfile,
-        message: "Login successfully",
+        message: "Logged in successfully",
         success: true,
       });
     } catch (error) {

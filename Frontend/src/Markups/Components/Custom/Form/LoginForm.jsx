@@ -161,7 +161,7 @@ function LoginForm() {
 
     // Validate form before proceeding
     if (!validateForm()) {
-      toast.error("Please fix the errors in the form before submitting.");
+      toast.error("Please fill the form before submitting.");
       return; // Prevent submission if validation fails
     }
 
