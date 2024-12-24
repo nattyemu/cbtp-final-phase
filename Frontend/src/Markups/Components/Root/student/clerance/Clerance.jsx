@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import AuthService from "../../../../../Service/AuthService";
 import getAuth from "../../../../../Utilities/AuthHeader";
-
+import moment from "moment";
 // Dummy function simulating API call (replace with your actual API)
 
 function Clerance() {
@@ -38,10 +38,9 @@ function Clerance() {
     try {
       const info = await AuthService.getMy({ id: findIdFromStorage?.id });
       setUserDataInContext(info?.data);
-      console.log("first", info.data);
+      // console.log("first", info.data);
       const clearanceStatus = await fetchClearanceStatus();
       setClearanceData(clearanceStatus);
-      console.log("clearanceStatus", setClearanceData(clearanceStatus));
     } catch (error) {
       console.log(error);
     } finally {
@@ -102,7 +101,9 @@ function Clerance() {
                 " " +
                 userDataInContext?.profile?.lastName}
             </Text>
-            <Text className="slipSubheader">Clearance Status</Text>
+            <Text className="slipSubheader">
+              Clearance Status: {userDataInContext?.request[0].status}
+            </Text>
             {clearanceData?.checked?.map((item) => (
               <Text key={item} className="slipText">
                 {item}: Cleared
@@ -118,6 +119,10 @@ function Clerance() {
                 {item}: Rejected
               </Text>
             ))}
+            <Text className="slipText">
+              time :{" "}
+              {moment(userDataInContext?.createdAt).format("MMM DD YYYY")}
+            </Text>
           </View>
         </Page>
       </Document>

@@ -132,19 +132,10 @@ const requestController = {
       });
     } catch (error) {
       console.log(error);
-      if (error instanceof ZodError) {
-        return next(
-          new UnprocessableEntity(
-            "Validation failed",
-            422,
-            ErrorCode.VALIDATION_FAILED,
-            null
-          )
-        );
-      }
-      // Handle other errors
-      console.error("Error:", error);
-      return next(new Error("Internal Server Error"));
+      return res.status(500).json({
+        success: false,
+        message: "Internal servevr error",
+      });
     }
   },
   getClearanceRequestReason: async (req, res, next) => {
