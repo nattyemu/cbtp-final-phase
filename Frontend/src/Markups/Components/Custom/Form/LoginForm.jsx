@@ -182,10 +182,10 @@ function LoginForm() {
         // Update context and navigate based on the user's role
         navigateToRolePage(response?.data);
       } else {
-        toast.error(response.message, { position: "top-center" });
+        toast.error(response.message);
       }
     } catch (error) {
-      toast.error(error.message, { position: "top-center" });
+      toast.error(error.message);
     }
   };
 
