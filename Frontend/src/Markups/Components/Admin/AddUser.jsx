@@ -14,11 +14,67 @@ function AddUser() {
     sex: "",
   });
   const [loading, setLoading] = useState(false); // Loading state to disable the button
+  const [errors, setErrors] = useState({}); // Error state for validation
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Email validation
+    if (!form.email) {
+      newErrors.email = "Email is required.";
+    } else if (form.email.length < 8) {
+      newErrors.email = "Email must be at least 8 characters.";
+    }
+
+    // Password validation
+    if (!form.password) {
+      newErrors.password = "Password is required.";
+    } else if (form.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters.";
+    }
+
+    // Role validation
+    if (!form.role) {
+      newErrors.role = "Role is required.";
+    }
+
+    // First Name validation
+    if (!form.firstName) {
+      newErrors.firstName = "First Name is required.";
+    } else if (form.firstName.length < 2) {
+      newErrors.firstName = "First Name must be at least 2 characters.";
+    }
+
+    // Middle Name validation
+    if (!form.middleName) {
+      newErrors.middleName = "Middle Name is required.";
+    } else if (form.middleName.length < 2) {
+      newErrors.middleName = "Middle Name must be at least 2 characters.";
+    }
+
+    // Last Name validation
+    if (!form.lastName) {
+      newErrors.lastName = "Last Name is required.";
+    } else if (form.lastName.length < 2) {
+      newErrors.lastName = "Last Name must be at least 2 characters.";
+    }
+
+    // Gender validation
+    if (!form.sex) {
+      newErrors.sex = "Gender is required.";
+    }
+
+    return newErrors;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent page reload
+    const validationErrors = validateForm();
+    setErrors(validationErrors); // Show validation errors
+    if (Object.keys(validationErrors).length > 0) {
+      return; // Stop submission if validation fails
+    }
     setLoading(true); // Set loading state to true while submitting
-    console.log(form);
     try {
       const response = await AuthService.register(form);
       if (response.success) {
@@ -33,6 +89,7 @@ function AddUser() {
           lastName: "",
           sex: "",
         });
+        setErrors({}); // Clear errors on successful submission
       } else {
         toast.error(response?.message);
       }
@@ -49,6 +106,12 @@ function AddUser() {
       ...prevForm,
       [id]: value,
     }));
+    if (value) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [id]: "",
+      }));
+    }
   };
 
   return (
@@ -65,6 +128,7 @@ function AddUser() {
                 value={form.email}
                 onChange={handleChange}
               />
+              {errors.email && <p className="text-red-600">{errors.email}</p>}
             </div>
             <div className="form-group">
               <label htmlFor="password">Password</label>
@@ -74,6 +138,9 @@ function AddUser() {
                 value={form.password}
                 onChange={handleChange}
               />
+              {errors.password && (
+                <p className="text-red-600">{errors.password}</p>
+              )}
             </div>
           </div>
 
@@ -89,6 +156,7 @@ function AddUser() {
               <option value="PROCTOR">Proctor</option>
               <option value="POLICE">Police Officer</option>
             </select>
+            {errors.role && <p className="text-red-600">{errors.role}</p>}
           </div>
 
           <div className="d-flex">
@@ -100,6 +168,9 @@ function AddUser() {
                 value={form.firstName}
                 onChange={handleChange}
               />
+              {errors.firstName && (
+                <p className="text-red-600">{errors.firstName}</p>
+              )}
             </div>
             <div className="form-group me-5">
               <label htmlFor="middleName">Middle Name</label>
@@ -109,6 +180,9 @@ function AddUser() {
                 value={form.middleName}
                 onChange={handleChange}
               />
+              {errors.middleName && (
+                <p className="text-red-600">{errors.middleName}</p>
+              )}
             </div>
             <div className="form-group">
               <label htmlFor="lastName">Last Name</label>
@@ -118,6 +192,9 @@ function AddUser() {
                 value={form.lastName}
                 onChange={handleChange}
               />
+              {errors.lastName && (
+                <p className="text-red-600">{errors.lastName}</p>
+              )}
             </div>
           </div>
 
@@ -128,6 +205,7 @@ function AddUser() {
               <option value="MALE">Male</option>
               <option value="FEMALE">Female</option>
             </select>
+            {errors.sex && <p className="text-red-600">{errors.sex}</p>}
           </div>
 
           <div className="form-group mt-3">

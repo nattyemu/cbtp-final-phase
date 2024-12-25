@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AuthService from "../../../Service/AuthService";
-import { toast } from "react-toastify";
-
+const nameRegex = /^[\p{L}\s'-]+$/u;
 function AdminUpdateStudent({ user }) {
   const initialFormState = {
     faculty: "",
@@ -17,10 +16,10 @@ function AdminUpdateStudent({ user }) {
   };
 
   const [form, setForm] = useState(initialFormState);
+  const [errors, setErrors] = useState({}); // State to hold error messages
 
   useEffect(() => {
     if (user) {
-      console.log("User data:", user); // Log the user object to check data
       setForm({
         faculty: user?.studentProfile?.faculty || "",
         department: user?.studentProfile?.department || "",
@@ -39,22 +38,80 @@ function AdminUpdateStudent({ user }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Simple validation to ensure studentId is present
-    if (!form.studentId) {
-      toast.error("Student ID is required");
+    let formErrors = {}; // Temporary object to store errors
+
+    // Validation
+    if (!form.studentId || form.studentId.length !== 9) {
+      formErrors.studentId = "Student ID is required and must be 9 characters";
+    }
+
+    if (
+      !form.firstName ||
+      form.firstName.length < 2 ||
+      !nameRegex.test(form.firstName)
+    ) {
+      formErrors.firstName =
+        "First Name is required and must be at least 2 characters";
+    }
+
+    if (
+      !form.lastName ||
+      form.lastName.length < 2 ||
+      !nameRegex.test(form.lastName)
+    ) {
+      formErrors.lastName =
+        "Last Name is required and must be at least 2 characters";
+    }
+
+    if (!form.email || !/\S+@\S+\.\S+/.test(form.email)) {
+      formErrors.email = "A valid email is required";
+    }
+
+    if (!form.role) {
+      formErrors.role = "Role is required";
+    }
+
+    if (form.password && form.password.length < 8) {
+      formErrors.password =
+        "Password must be at least 8 characters if provided";
+    }
+
+    if (
+      !form.middleName ||
+      form.middleName.length < 2 ||
+      !nameRegex.test(form.middleName)
+    ) {
+      formErrors.middleName = "Middle Name must be at least 2 characters";
+    }
+
+    if (!form.faculty) {
+      formErrors.faculty = "Faculty is required";
+    }
+
+    if (!form.department || form.department.length < 2) {
+      formErrors.department = "Department is required";
+    }
+
+    if (!form.sex) {
+      formErrors.sex = "Gender is required";
+    }
+
+    // If there are errors, set the errors state and don't proceed
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
       return;
     }
 
     try {
       const response = await AuthService.update(form, user?.id);
       if (response?.success) {
-        toast.success(response?.message);
         setForm(initialFormState); // Reset form on success
+        setErrors({}); // Clear errors
       } else {
-        toast.error(response?.message);
+        setErrors({ general: response?.message }); // Handle error response
       }
     } catch (error) {
-      toast.error("Error updating student:");
+      setErrors({ general: "Error updating student:" });
       console.error("Error updating student:", error);
     }
   };
@@ -69,6 +126,10 @@ function AdminUpdateStudent({ user }) {
       <div className="add-user-container shadow">
         <h2 className="text-center fs-2 fw-bold">Update Student</h2>
         <form onSubmit={handleSubmit}>
+          {errors.general && (
+            <div className="text-red-500">{errors.general}</div>
+          )}
+
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
@@ -77,7 +138,9 @@ function AdminUpdateStudent({ user }) {
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
             />
+            {errors.email && <div className="text-red-500">{errors.email}</div>}
           </div>
+
           <div className="form-group">
             <label htmlFor="password">New Password</label>
             <input
@@ -87,7 +150,11 @@ function AdminUpdateStudent({ user }) {
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               placeholder="Leave blank to keep current password"
             />
+            {errors.password && (
+              <div className="text-red-500">{errors.password}</div>
+            )}
           </div>
+
           <div className="form-group">
             <label htmlFor="role">Role</label>
             <select
@@ -107,6 +174,7 @@ function AdminUpdateStudent({ user }) {
               <option value="REGISTRAR">Registrar</option>
               <option value="STUDENT">Student</option>
             </select>
+            {errors.role && <div className="text-red-500">{errors.role}</div>}
           </div>
 
           <div className="form-group">
@@ -117,7 +185,11 @@ function AdminUpdateStudent({ user }) {
               value={form.faculty}
               onChange={(e) => setForm({ ...form, faculty: e.target.value })}
             />
+            {errors.faculty && (
+              <div className="text-red-500">{errors.faculty}</div>
+            )}
           </div>
+
           <div className="form-group">
             <label htmlFor="department">Department</label>
             <input
@@ -126,7 +198,11 @@ function AdminUpdateStudent({ user }) {
               value={form.department}
               onChange={(e) => setForm({ ...form, department: e.target.value })}
             />
+            {errors.department && (
+              <div className="text-red-500">{errors.department}</div>
+            )}
           </div>
+
           <div className="form-group">
             <label htmlFor="studentId">Student ID</label>
             <input
@@ -135,7 +211,11 @@ function AdminUpdateStudent({ user }) {
               value={form.studentId}
               onChange={(e) => setForm({ ...form, studentId: e.target.value })}
             />
+            {errors.studentId && (
+              <div className="text-red-500">{errors.studentId}</div>
+            )}
           </div>
+
           <div className="form-group">
             <label htmlFor="firstName">First Name</label>
             <input
@@ -144,7 +224,11 @@ function AdminUpdateStudent({ user }) {
               value={form.firstName}
               onChange={(e) => setForm({ ...form, firstName: e.target.value })}
             />
+            {errors.firstName && (
+              <div className="text-red-500">{errors.firstName}</div>
+            )}
           </div>
+
           <div className="form-group">
             <label htmlFor="middleName">Middle Name</label>
             <input
@@ -153,7 +237,11 @@ function AdminUpdateStudent({ user }) {
               value={form.middleName}
               onChange={(e) => setForm({ ...form, middleName: e.target.value })}
             />
+            {errors.middleName && (
+              <div className="text-red-500">{errors.middleName}</div>
+            )}
           </div>
+
           <div className="form-group">
             <label htmlFor="lastName">Last Name</label>
             <input
@@ -162,7 +250,11 @@ function AdminUpdateStudent({ user }) {
               value={form.lastName}
               onChange={(e) => setForm({ ...form, lastName: e.target.value })}
             />
+            {errors.lastName && (
+              <div className="text-red-500">{errors.lastName}</div>
+            )}
           </div>
+
           <div className="form-group">
             <label htmlFor="sex">Sex</label>
             <select
@@ -174,7 +266,9 @@ function AdminUpdateStudent({ user }) {
               <option value="MALE">Male</option>
               <option value="FEMALE">Female</option>
             </select>
+            {errors.sex && <div className="text-red-500">{errors.sex}</div>}
           </div>
+
           <div className="form-group mt-3">
             <button type="submit">Submit</button>
           </div>
