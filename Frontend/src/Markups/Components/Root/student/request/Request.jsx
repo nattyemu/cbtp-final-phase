@@ -1,34 +1,31 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import "./request.css";
 import AuthService from "../../../../../Service/AuthService";
 import { toast } from "react-toastify";
+
 function Request() {
   const [isError, setIsError] = useState(false);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-  };
-
-  // const handleReasonChange = (event) => {
-  //   const reason = event.target.value;
-  //   setSelectedReason(reason);
-  //   setShowDescription(reason === "other");
-  // };
-
   const [form, setForm] = useState({
     semester: "",
     reason: "",
   });
-  const [showDescription, setShowDescription] = useState(false);
+
   const handleRequest = async (e) => {
     e.preventDefault();
+
+    // Validation
+    if (!form.semester || !form.reason) {
+      setIsError(true);
+      return;
+    }
+
+    setIsError(false); // Clear error if inputs are valid
     console.log(form);
 
     try {
       const response = await AuthService.request(form);
       if (response?.success) {
         toast.success(response.message);
-        // console.log(response);
       } else {
         toast.error(response.message);
       }
@@ -40,12 +37,13 @@ function Request() {
 
   return (
     <div className="flex justify-center m-2 shadow-md rounded-lg w-full">
-      <div className=" w-full">
+      <div className="w-full">
         <h2 className="flex justify-center text-lg mx-5 my-4 font-bold sm:text-[18px] md:text-[22px] lg:text-[25px]">
           Request Clearance Form
         </h2>
-        <form onSubmit={handleSubmit} className="m-2 p-4 ">
+        <form onSubmit={handleRequest} className="m-2 p-4">
           <div className="flex justify-center flex-col gap-0 p-3">
+            {/* Select Semester */}
             <div className="p-3 flex flex-col gap-2">
               <label
                 htmlFor="semester"
@@ -53,63 +51,77 @@ function Request() {
               >
                 Select Semester
               </label>
-              <input
-                type="text"
+              <select
                 name="semester"
                 id="semester"
-                maxLength={22}
-                className="input-field p-4 rounded-md outline-none "
-                placeholder="Enter semester"
-                onChange={(e) => {
+                className="input-field p-4 rounded-md outline-none"
+                onChange={(e) =>
                   setForm({
                     ...form,
                     semester: e.target.value,
-                  });
-                }}
-              />
+                  })
+                }
+                value={form.semester}
+              >
+                <option value="" disabled>
+                  Select Semester
+                </option>
+                <option value="1st semester">1st Semester</option>
+                <option value="2nd semester">2nd Semester</option>
+              </select>
             </div>
-            <div
-              className="p-3 flex flex-col gap-2
-            "
-            >
+
+            {/* Select Reason */}
+            <div className="p-3 flex flex-col gap-2">
               <label
                 htmlFor="reason"
                 className="sm:text-[16px] md:text-[18px] lg:text-[21px]"
               >
                 Select Reason
               </label>
-              <input
+              <select
                 name="reason"
                 id="reason"
-                placeholder="Enter reason"
-                onChange={(e) => {
+                className="select-field my-2 p-4 rounded-md outline-none"
+                onChange={(e) =>
                   setForm({
                     ...form,
                     reason: e.target.value,
-                  });
-                }}
-                className="select-field my-2 p-4 rounded-md outline-none"
-              />
+                  })
+                }
+                value={form.reason}
+              >
+                <option value="" disabled>
+                  Select Reason
+                </option>
+                <option value="semester breaks">Semester Breaks</option>
+                <option value="withdrawals">Withdrawals</option>
+                <option value="emergency situations">
+                  Emergency Situations
+                </option>
+              </select>
             </div>
-            <p id="error" className="error-message">
-              {isError && "Please fill in all fields"}
+
+            {/* Error Message */}
+            <p id="error" className="error-message text-red-600">
+              {isError && "Please fill in both fields before submitting."}
             </p>
           </div>
+
           <div className="flex gap-2">
             <input
               type="reset"
               value="Reset"
               onClick={() => {
+                setForm({ semester: "", reason: "" });
                 setIsError(false);
-                setShowDescription(false);
               }}
-              className="reset-button  rounded-md bg-red-700 hover:bg-red-600 text-white p-3"
+              className="reset-button rounded-md bg-red-700 hover:bg-red-600 text-white p-3"
             />
             <input
-              onClick={handleRequest}
               type="submit"
               value="Request"
-              className=" bg-green-700 text-white hover:bg-green-600  rounded-md"
+              className="bg-green-700 text-white hover:bg-green-600 rounded-md p-3"
             />
           </div>
         </form>

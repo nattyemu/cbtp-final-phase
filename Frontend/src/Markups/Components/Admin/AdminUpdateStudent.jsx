@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import AuthService from "../../../Service/AuthService";
-const nameRegex = /^[\p{L}\s'-]+$/u;
+
+// Updated regex to allow only alphabetic characters (including accented), spaces, apostrophes, and hyphens.
+const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/;
+
 function AdminUpdateStudent({ user }) {
   const initialFormState = {
     faculty: "",
@@ -42,7 +45,7 @@ function AdminUpdateStudent({ user }) {
 
     // Validation
     if (!form.studentId || form.studentId.length !== 9) {
-      formErrors.studentId = "Student ID is required and must be 9 characters";
+      formErrors.studentId = "Student ID is required and must be 9 characters.";
     }
 
     if (
@@ -51,7 +54,7 @@ function AdminUpdateStudent({ user }) {
       !nameRegex.test(form.firstName)
     ) {
       formErrors.firstName =
-        "First Name is required and must be at least 2 characters";
+        "First Name is required, must be at least 2 characters, and cannot contain invalid symbols.";
     }
 
     if (
@@ -60,20 +63,7 @@ function AdminUpdateStudent({ user }) {
       !nameRegex.test(form.lastName)
     ) {
       formErrors.lastName =
-        "Last Name is required and must be at least 2 characters";
-    }
-
-    if (!form.email || !/\S+@\S+\.\S+/.test(form.email)) {
-      formErrors.email = "A valid email is required";
-    }
-
-    if (!form.role) {
-      formErrors.role = "Role is required";
-    }
-
-    if (form.password && form.password.length < 8) {
-      formErrors.password =
-        "Password must be at least 8 characters if provided";
+        "Last Name is required, must be at least 2 characters, and cannot contain invalid symbols.";
     }
 
     if (
@@ -81,19 +71,33 @@ function AdminUpdateStudent({ user }) {
       form.middleName.length < 2 ||
       !nameRegex.test(form.middleName)
     ) {
-      formErrors.middleName = "Middle Name must be at least 2 characters";
+      formErrors.middleName =
+        "Middle Name must be at least 2 characters and cannot contain invalid symbols.";
+    }
+
+    if (!form.email || !/\S+@\S+\.\S+/.test(form.email)) {
+      formErrors.email = "A valid email is required.";
+    }
+
+    if (!form.role) {
+      formErrors.role = "Role is required.";
+    }
+
+    if (form.password && form.password.length < 8) {
+      formErrors.password =
+        "Password must be at least 8 characters if provided.";
     }
 
     if (!form.faculty) {
-      formErrors.faculty = "Faculty is required";
+      formErrors.faculty = "Faculty is required.";
     }
 
     if (!form.department || form.department.length < 2) {
-      formErrors.department = "Department is required";
+      formErrors.department = "Department is required.";
     }
 
     if (!form.sex) {
-      formErrors.sex = "Gender is required";
+      formErrors.sex = "Gender is required.";
     }
 
     // If there are errors, set the errors state and don't proceed
@@ -111,7 +115,7 @@ function AdminUpdateStudent({ user }) {
         setErrors({ general: response?.message }); // Handle error response
       }
     } catch (error) {
-      setErrors({ general: "Error updating student:" });
+      setErrors({ general: "Error updating student." });
       console.error("Error updating student:", error);
     }
   };
@@ -269,9 +273,9 @@ function AdminUpdateStudent({ user }) {
             {errors.sex && <div className="text-red-500">{errors.sex}</div>}
           </div>
 
-          <div className="form-group mt-3">
-            <button type="submit">Submit</button>
-          </div>
+          <button type="submit" className="btn btn-primary">
+            Update Student
+          </button>
         </form>
       </div>
     </div>
