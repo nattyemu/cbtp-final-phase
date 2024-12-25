@@ -18,6 +18,7 @@ function AddUser() {
 
   const validateForm = () => {
     const newErrors = {};
+    const nameRegex = /^[a-zA-Z\s]+$/; // Regular expression to allow only alphabets and spaces
 
     // Email validation
     if (!form.email) {
@@ -43,6 +44,8 @@ function AddUser() {
       newErrors.firstName = "First Name is required.";
     } else if (form.firstName.length < 2) {
       newErrors.firstName = "First Name must be at least 2 characters.";
+    } else if (!nameRegex.test(form.firstName)) {
+      newErrors.firstName = "First Name must not contain symbols or numbers.";
     }
 
     // Middle Name validation
@@ -50,6 +53,8 @@ function AddUser() {
       newErrors.middleName = "Middle Name is required.";
     } else if (form.middleName.length < 2) {
       newErrors.middleName = "Middle Name must be at least 2 characters.";
+    } else if (!nameRegex.test(form.middleName)) {
+      newErrors.middleName = "Middle Name must not contain symbols or numbers.";
     }
 
     // Last Name validation
@@ -57,6 +62,8 @@ function AddUser() {
       newErrors.lastName = "Last Name is required.";
     } else if (form.lastName.length < 2) {
       newErrors.lastName = "Last Name must be at least 2 characters.";
+    } else if (!nameRegex.test(form.lastName)) {
+      newErrors.lastName = "Last Name must not contain symbols or numbers.";
     }
 
     // Gender validation

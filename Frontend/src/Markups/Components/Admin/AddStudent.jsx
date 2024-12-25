@@ -53,32 +53,43 @@ function AddStudent() {
       newErrors.studentId = "Student ID must be exactly 9 characters.";
     }
 
-    // Faculty validation (8-32 characters)
+    // Faculty validation (3-32 characters)
     if (!form.faculty) {
       newErrors.faculty = "Faculty is required.";
-    } else if (form.faculty.length < 8 || form.faculty.length > 32) {
-      newErrors.faculty = "Faculty must be between 8 and 32 characters.";
+    } else if (form.faculty.length < 3 || form.faculty.length > 32) {
+      newErrors.faculty = "Faculty must be between 3 and 32 characters.";
     }
 
-    // Department validation (8-32 characters)
+    // Department validation (3-32 characters)
     if (!form.department) {
       newErrors.department = "Department is required.";
     } else if (form.department.length < 3 || form.department.length > 32) {
-      newErrors.department = "Department must be between 2 and 32 characters.";
+      newErrors.department = "Department must be between 3 and 32 characters.";
     }
 
     // First Name validation (3-34 characters)
     if (!form.firstName) {
       newErrors.firstName = "First name is required.";
-    } else if (form.firstName.length < 4 || form.firstName.length > 34) {
+    } else if (form.firstName.length < 3 || form.firstName.length > 34) {
       newErrors.firstName = "First name must be between 3 and 34 characters.";
+    } else if (!/^[a-zA-Z\s-]+$/.test(form.firstName)) {
+      newErrors.firstName =
+        "First name can only contain letters, spaces, and hyphens.";
     }
 
     // Last Name validation (3-34 characters)
     if (!form.lastName) {
       newErrors.lastName = "Last name is required.";
-    } else if (form.lastName.length < 4 || form.lastName.length > 34) {
+    } else if (form.lastName.length < 3 || form.lastName.length > 34) {
       newErrors.lastName = "Last name must be between 3 and 34 characters.";
+    } else if (!/^[a-zA-Z\s-]+$/.test(form.lastName)) {
+      newErrors.lastName =
+        "Last name can only contain letters, spaces, and hyphens.";
+    }
+
+    if (form.middleName && !/^[a-zA-Z\s-]+$/.test(form.middleName)) {
+      newErrors.middleName =
+        "Middle name can only contain letters, spaces, and hyphens.";
     }
 
     // Academic Year validation (e.g., 2023/24)
