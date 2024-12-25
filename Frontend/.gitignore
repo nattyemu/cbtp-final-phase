@@ -22,3 +22,4 @@ Frontend.rar
 *.njsproj
 *.sln
 *.sw?
+.env
