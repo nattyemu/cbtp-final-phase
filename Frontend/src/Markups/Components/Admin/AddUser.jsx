@@ -26,8 +26,9 @@ function AddUser() {
       newErrors.email = "Email is required.";
     } else if (form.email.length < 8) {
       newErrors.email = "Email must be at least 8 characters.";
+    } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(form.email)) {
+      newErrors.email = "Email must be a valid format.";
     }
-
     // Password validation
     if (!form.password) {
       newErrors.password = "Password is required.";
