@@ -159,15 +159,15 @@ function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate form before proceeding
-    if (!validateForm()) {
-      toast.error("Please fill the form before submitting.");
-      return; // Prevent submission if validation fails
-    }
-
     if (isLogged) {
       console.log("check");
       checkIfLogin();
+      return;
+    } else {
+      if (!validateForm()) {
+        toast.error("Please fill the form before submitting.");
+        return; // Prevent submission if validation fails
+      }
     }
 
     try {

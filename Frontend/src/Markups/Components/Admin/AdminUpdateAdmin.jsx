@@ -14,8 +14,9 @@ function AdminUpdateAdmin({ user }) {
   };
 
   const [form, setForm] = useState(initialFormState);
+  const [errors, setErrors] = useState({});
+
   useEffect(() => {
-    // console.log("user", user.profile.sex);
     if (user) {
       setForm({
         firstName: user?.profile?.firstName || "",
@@ -29,11 +30,50 @@ function AdminUpdateAdmin({ user }) {
     }
   }, [user]);
 
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Validate email
+    if (!form.email.trim()) newErrors.email = "Email is required.";
+    else if (!/\S+@\S+\.\S+/.test(form.email))
+      newErrors.email = "Email is invalid.";
+
+    // Validate password (optional)
+    if (form.password && form.password.trim().length < 8)
+      newErrors.password = "Password must be at least 8 characters.";
+
+    // Validate role
+    if (!form.role) newErrors.role = "Role is required.";
+
+    // Validate first name
+    if (!form.firstName.trim()) newErrors.firstName = "First Name is required.";
+    else if (form.firstName.trim().length < 2)
+      newErrors.firstName = "First Name must be at least 2 characters.";
+
+    // Validate middle name
+    if (form.middleName.trim().length < 2)
+      newErrors.middleName = "Middle Name must be at least 2 characters.";
+
+    // Validate last name
+    if (!form.lastName.trim()) newErrors.lastName = "Last Name is required.";
+    else if (form.lastName.trim().length < 2)
+      newErrors.lastName = "Last Name must be at least 2 characters.";
+
+    // Validate sex
+    if (!form.sex) newErrors.sex = "Gender is required.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!validateForm()) {
+      return;
+    }
+
     try {
-      // console.log("form", form);
       const response = await AuthService.updateAdminUser(form, user?.id);
       if (response?.success) {
         toast.success(response?.message);
@@ -47,7 +87,6 @@ function AdminUpdateAdmin({ user }) {
     }
   };
 
-  // Add a loading check or fallback rendering when user is undefined
   if (!user) {
     return <div>Loading...</div>;
   }
@@ -66,8 +105,15 @@ function AdminUpdateAdmin({ user }) {
               onChange={(e) => {
                 setForm({ ...form, email: e.target.value });
               }}
+              aria-describedby="email-error"
             />
+            {errors.email && (
+              <p id="email-error" className="text-red-600">
+                {errors.email}
+              </p>
+            )}
           </div>
+
           <div className="form-group">
             <label htmlFor="password">New Password</label>
             <input
@@ -76,15 +122,22 @@ function AdminUpdateAdmin({ user }) {
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               placeholder="Leave blank to keep current password"
-              min={8}
+              aria-describedby="password-error"
             />
+            {errors.password && (
+              <p id="password-error" className="text-red-600">
+                {errors.password}
+              </p>
+            )}
           </div>
+
           <div className="form-group">
             <label htmlFor="role">Role</label>
             <select
               id="role"
               value={form.role}
               onChange={(e) => setForm({ ...form, role: e.target.value })}
+              aria-describedby="role-error"
             >
               <option value="">Select Role</option>
               <option value="ADMIN">Admin</option>
@@ -98,6 +151,11 @@ function AdminUpdateAdmin({ user }) {
               <option value="REGISTRAR">Registrar</option>
               <option value="STUDENT">Student</option>
             </select>
+            {errors.role && (
+              <p id="role-error" className="text-red-600">
+                {errors.role}
+              </p>
+            )}
           </div>
 
           <div className="form-group">
@@ -107,8 +165,15 @@ function AdminUpdateAdmin({ user }) {
               id="firstName"
               value={form.firstName}
               onChange={(e) => setForm({ ...form, firstName: e.target.value })}
+              aria-describedby="firstName-error"
             />
+            {errors.firstName && (
+              <p id="firstName-error" className="text-red-600">
+                {errors.firstName}
+              </p>
+            )}
           </div>
+
           <div className="form-group">
             <label htmlFor="middleName">Middle Name</label>
             <input
@@ -116,8 +181,15 @@ function AdminUpdateAdmin({ user }) {
               id="middleName"
               value={form.middleName}
               onChange={(e) => setForm({ ...form, middleName: e.target.value })}
+              aria-describedby="middleName-error"
             />
+            {errors.middleName && (
+              <p id="middleName-error" className="text-red-600">
+                {errors.middleName}
+              </p>
+            )}
           </div>
+
           <div className="form-group">
             <label htmlFor="lastName">Last Name</label>
             <input
@@ -125,20 +197,34 @@ function AdminUpdateAdmin({ user }) {
               id="lastName"
               value={form.lastName}
               onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+              aria-describedby="lastName-error"
             />
+            {errors.lastName && (
+              <p id="lastName-error" className="text-red-600">
+                {errors.lastName}
+              </p>
+            )}
           </div>
+
           <div className="form-group">
             <label htmlFor="sex">Sex</label>
             <select
               id="sex"
               value={form.sex}
               onChange={(e) => setForm({ ...form, sex: e.target.value })}
+              aria-describedby="sex-error"
             >
               <option value="">Select Gender</option>
               <option value="MALE">Male</option>
               <option value="FEMALE">Female</option>
             </select>
+            {errors.sex && (
+              <p id="sex-error" className="text-red-600">
+                {errors.sex}
+              </p>
+            )}
           </div>
+
           <div className="form-group mt-3">
             <button type="submit">Submit</button>
           </div>
