@@ -68,7 +68,7 @@ function AddDebt() {
   };
 
   return (
-    <div className="add-userDebt">
+    <div className="">
       <div className="shadow">
         <h2 className="text-center fs-2 p-3 fw-bold">Add Debt</h2>
         <form>
@@ -100,7 +100,6 @@ function AddDebt() {
               <button
                 type="submit"
                 variant="contained"
-                color="primary"
                 onClick={handleSumbit}
               >
                 Submit

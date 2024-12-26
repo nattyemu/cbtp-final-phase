@@ -90,7 +90,7 @@ function Clerance() {
   const PDFDocument = () => {
     const nowYear = new Date().getFullYear();
     return (
-      <Document>
+      <Document className="ml-60">
         <Page size="letter">
           <View>
             <Text className="slipHeader">JU student clearance slip</Text>
@@ -150,7 +150,7 @@ function Clerance() {
   }
 
   return (
-    <div className="flex flex-col gap-2 justify-center border p-6 shadow-md sm:w-[400px] md:w-[500px] lg:w-[600px] text-gray-600">
+    <div className="flex flex-col gap-2 justify-center border p-6 shadow-md sm:w-[400px] md:w-[500px] lg:w-[600px] text-gray-600 mx-auto">
       <h1 className="text-2xl text-center font-bold m-3">Clearance</h1>
 
       {/* Student Information Section */}
@@ -236,7 +236,7 @@ function Clerance() {
                   Loading PDF...
                 </button>
               ) : (
-                <button className="bg-green-600 text-white p-2 rounded">
+                <button className="bg-[#141430] text-white p-2 rounded">
                   Download PDF
                 </button>
               )

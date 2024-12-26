@@ -15,12 +15,12 @@
   border: none;
   width: 20%;
   color: white;
-  background-color: rgb(21, 21, 165);
+  background-color: #141430;
   /* margin-left: 150px; */
   border-radius: 20px;
 }
 span {
-  color: rgb(21, 21, 165);
+  color: #141430;
 }
 a {
   color: white;

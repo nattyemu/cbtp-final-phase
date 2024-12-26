@@ -13,6 +13,7 @@ function AddUser() {
     lastName: "",
     sex: "",
   });
+
   const [loading, setLoading] = useState(false); // Loading state to disable the button
   const [errors, setErrors] = useState({}); // Error state for validation
 
@@ -82,10 +83,10 @@ function AddUser() {
       return; // Stop submission if validation fails
     }
     setLoading(true); // Set loading state to true while submitting
+
     try {
       const response = await AuthService.register(form);
       if (response.success) {
-        console.log(response.data.message);
         toast.success(response?.message);
         setForm({
           email: "",
@@ -103,7 +104,7 @@ function AddUser() {
     } catch (error) {
       toast.error(error.message);
     } finally {
-      setLoading(false); // Reset loading state after request is finished
+      setLoading(false);
     }
   };
 
@@ -122,28 +123,40 @@ function AddUser() {
   };
 
   return (
-    <div className="add-user p-5 ">
-      <div className="shadow">
-        <h2 className="text-center fs-2 fw-bold">Add User</h2>
-        <form>
-          <div className="d-flex">
-            <div className="form-group me-5">
-              <label htmlFor="email">Email</label>
+    <div className="add-user p-5  ">
+      <div className="shadow-lg p-4 rounded bg-white ml-24">
+        <h2 className="text-center text-2xl font-bold mb-6">Add User</h2>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Email & Password */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="form-group">
+              <label htmlFor="email" className="block text-sm font-medium mb-1">
+                Email
+              </label>
               <input
                 type="text"
                 id="email"
                 value={form.email}
                 onChange={handleChange}
+                className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter email"
               />
               {errors.email && <p className="text-red-600">{errors.email}</p>}
             </div>
             <div className="form-group">
-              <label htmlFor="password">Password</label>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium mb-1"
+              >
+                Password
+              </label>
               <input
                 type="password"
                 id="password"
                 value={form.password}
                 onChange={handleChange}
+                className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter password"
               />
               {errors.password && (
                 <p className="text-red-600">{errors.password}</p>
@@ -151,9 +164,17 @@ function AddUser() {
             </div>
           </div>
 
+          {/* Role Selection */}
           <div className="form-group">
-            <label htmlFor="role">Role</label>
-            <select id="role" value={form.role} onChange={handleChange}>
+            <label htmlFor="role" className="block text-sm font-medium mb-1">
+              Role
+            </label>
+            <select
+              id="role"
+              value={form.role}
+              onChange={handleChange}
+              className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
               <option value="">Select Role</option>
               <option value="DEPARTMENT">Department</option>
               <option value="LIBRARY">Librarian</option>
@@ -166,38 +187,60 @@ function AddUser() {
             {errors.role && <p className="text-red-600">{errors.role}</p>}
           </div>
 
-          <div className="d-flex">
-            <div className="form-group me-5">
-              <label htmlFor="firstName">First Name</label>
+          {/* Names */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="form-group">
+              <label
+                htmlFor="firstName"
+                className="block text-sm font-medium mb-1"
+              >
+                First Name
+              </label>
               <input
                 type="text"
                 id="firstName"
                 value={form.firstName}
                 onChange={handleChange}
+                className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter first name"
               />
               {errors.firstName && (
                 <p className="text-red-600">{errors.firstName}</p>
               )}
             </div>
-            <div className="form-group me-5">
-              <label htmlFor="middleName">Middle Name</label>
+            <div className="form-group">
+              <label
+                htmlFor="middleName"
+                className="block text-sm font-medium mb-1"
+              >
+                Middle Name
+              </label>
               <input
                 type="text"
                 id="middleName"
                 value={form.middleName}
                 onChange={handleChange}
+                className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter middle name"
               />
               {errors.middleName && (
                 <p className="text-red-600">{errors.middleName}</p>
               )}
             </div>
             <div className="form-group">
-              <label htmlFor="lastName">Last Name</label>
+              <label
+                htmlFor="lastName"
+                className="block text-sm font-medium mb-1"
+              >
+                Last Name
+              </label>
               <input
                 type="text"
                 id="lastName"
                 value={form.lastName}
                 onChange={handleChange}
+                className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter last name"
               />
               {errors.lastName && (
                 <p className="text-red-600">{errors.lastName}</p>
@@ -205,18 +248,31 @@ function AddUser() {
             </div>
           </div>
 
+          {/* Gender */}
           <div className="form-group">
-            <label htmlFor="sex">Gender</label>
-            <select id="sex" value={form.sex} onChange={handleChange}>
-              <option value="">Gender</option>
+            <label htmlFor="sex" className="block text-sm font-medium mb-1">
+              Gender
+            </label>
+            <select
+              id="sex"
+              value={form.sex}
+              onChange={handleChange}
+              className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Select Gender</option>
               <option value="MALE">Male</option>
               <option value="FEMALE">Female</option>
             </select>
             {errors.sex && <p className="text-red-600">{errors.sex}</p>}
           </div>
 
-          <div className="form-group mt-3">
-            <button type="submit" onClick={handleSubmit} disabled={loading}>
+          {/* Submit Button */}
+          <div className="form-group text-center">
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full sm:w-auto px-6 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+            >
               {loading ? "Submitting..." : "Submit"}
             </button>
           </div>

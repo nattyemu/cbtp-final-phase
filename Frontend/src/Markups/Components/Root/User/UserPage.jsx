@@ -48,7 +48,7 @@ function UserPage({ loinData }) {
 
   return (
     <div>
-      <div className="user row">
+      <div className="flex flex-cols-2 ">
         <div className="Left-part col-3">
           <div className="profile pt-5">
             <img src={img} alt="" />
@@ -71,7 +71,7 @@ function UserPage({ loinData }) {
             </div>
           </div>
         </div>
-        <div className="Right-part col-9">
+        <div className="Right-part mx-auto ">
           {showLrequest && <ListOfRequest />}
           {showApproval && <ApprovalList />}
           {showDept && <DebtInfo />}

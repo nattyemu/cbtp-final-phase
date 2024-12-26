@@ -74,18 +74,8 @@ function AddAdminTable() {
         setSendSearch={setSendSearch}
         placeholder="Search by first name or student ID"
       />
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="user table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Roll no</TableCell>
-              <TableCell>User Name</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Role</TableCell>
-              <TableCell>Sex</TableCell>
-              <TableCell>Action</TableCell>
-            </TableRow>
-          </TableHead>
+      <TableContainer component={Paper} className="ml-32">
+          <Table>
           <TableBody>
             {filteredUsers &&
               filteredUsers.map((singleUser) => (

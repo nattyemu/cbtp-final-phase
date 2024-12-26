@@ -7,15 +7,18 @@ import getAuth from "../../../Utilities/AuthHeader";
 import AddAdminTable from "../../Components/Custom/Table/AddAdminTable";
 import { toast } from "react-toastify";
 import AuthService from "../../../Service/AuthService";
+import ClearIcon from "@mui/icons-material/Clear";
 
 function AdminUser(props) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedOption, setSelectedOption] = useState(""); // Initially no option is selected
+  const [showTable, setShowTable] = useState(true); // Control table and search visibility
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
     fetchData();
   }, []);
+
   const fetchData = async () => {
     try {
       const data = await getAuth();
@@ -28,11 +31,11 @@ function AdminUser(props) {
       console.log(error);
       // toast.error(error.message);
     }
-    console.log("losers", users);
   };
 
   const handleDropdownToggle = () => {
     setShowDropdown(!showDropdown);
+    setShowTable(false); // Hide the table and search when the dropdown is toggled
   };
 
   const handleOptionClick = (option) => {
@@ -40,11 +43,16 @@ function AdminUser(props) {
     setShowDropdown(false);
   };
 
+  const handleBackToTable = () => {
+    setSelectedOption(""); // Reset the selected option
+    setShowTable(true); // Show the table and search again
+  };
+
   return (
     <>
       <div className="user">
         <div className="dropdown">
-          <button onClick={handleDropdownToggle} className="m-5 px-5 py-3">
+          <button onClick={handleDropdownToggle} className="m-5 px-10 py-3">
             Add
           </button>
           {showDropdown && (
@@ -66,20 +74,46 @@ function AdminUser(props) {
             </div>
           )}
         </div>
+
         {selectedOption === "form" && (
-          <div className="form-container">
+          <div className="form-container relative">
+            <ClearIcon
+              onClick={handleBackToTable}
+              className="absolute top-0 right-0 m-5 text-[#141430]"
+              style={{ cursor: "pointer" }}
+            />
             <AddUser />
           </div>
         )}
+
         {selectedOption === "file" && (
-          <div className="form-container">
+          <div className="form-container relative">
+            <ClearIcon
+              onClick={handleBackToTable}
+              className="absolute top-0 right-0 m-5 text-[#141430]"
+              style={{ cursor: "pointer" }}
+            />
             <FileUpload />
           </div>
         )}
+
+        {!showTable && selectedOption === "" && (
+          <div className="form-container">
+            <ClearIcon
+              onClick={handleBackToTable}
+              className="px-5 py-3 m-5"
+              style={{ cursor: "pointer" }}
+            />
+          </div>
+        )}
       </div>
-      <div>
-        <AddAdminTable />
-      </div>
+
+      {showTable && !selectedOption &&(
+        <div>
+          {/* AddAdminTable includes both the table and search */}
+          <AddAdminTable />
+        </div>
+      )}
     </>
   );
 }

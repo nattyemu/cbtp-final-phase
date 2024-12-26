@@ -77,7 +77,7 @@ function AddStudentTable() {
         setSendSearch={setSendSearch} // Pass setSendSearch to update the search query
         placeholder="Search by first name or student ID"
       />
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} className="ml-32">
         <Table sx={{ minWidth: 650 }} aria-label="student table">
           <TableHead>
             <TableRow>
