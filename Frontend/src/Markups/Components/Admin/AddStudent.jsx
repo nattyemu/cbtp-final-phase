@@ -31,12 +31,14 @@ function AddStudent() {
 
   const validateForm = () => {
     const newErrors = {};
-
+    const nameRegex = /^[a-zA-Z\s]+$/;
     // Email validation
     if (!form.email) {
       newErrors.email = "Email is required.";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-      newErrors.email = "Invalid email format.";
+    } else if (form.email.length < 8) {
+      newErrors.email = "Email must be at least 8 characters.";
+    } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(form.email)) {
+      newErrors.email = "Email must be a valid format.";
     }
 
     // Password validation (8-32 characters)
@@ -69,27 +71,28 @@ function AddStudent() {
 
     // First Name validation (3-34 characters)
     if (!form.firstName) {
-      newErrors.firstName = "First name is required.";
-    } else if (form.firstName.length < 3 || form.firstName.length > 34) {
-      newErrors.firstName = "First name must be between 3 and 34 characters.";
-    } else if (!/^[a-zA-Z\s-]+$/.test(form.firstName)) {
-      newErrors.firstName =
-        "First name can only contain letters, spaces, and hyphens.";
+      newErrors.firstName = "First Name is required.";
+    } else if (form.firstName.length < 2) {
+      newErrors.firstName = "First Name must be at least 2 characters.";
+    } else if (!nameRegex.test(form.firstName)) {
+      newErrors.firstName = "First Name must not contain symbols or numbers.";
     }
 
     // Last Name validation (3-34 characters)
     if (!form.lastName) {
-      newErrors.lastName = "Last name is required.";
-    } else if (form.lastName.length < 3 || form.lastName.length > 34) {
-      newErrors.lastName = "Last name must be between 3 and 34 characters.";
-    } else if (!/^[a-zA-Z\s-]+$/.test(form.lastName)) {
-      newErrors.lastName =
-        "Last name can only contain letters, spaces, and hyphens.";
+      newErrors.lastName = "Last Name is required.";
+    } else if (form.lastName.length < 2) {
+      newErrors.lastName = "Last Name must be at least 2 characters.";
+    } else if (!nameRegex.test(form.lastName)) {
+      newErrors.lastName = "Last Name must not contain symbols or numbers.";
     }
 
-    if (form.middleName && !/^[a-zA-Z\s-]+$/.test(form.middleName)) {
-      newErrors.middleName =
-        "Middle name can only contain letters, spaces, and hyphens.";
+    if (!form.middleName) {
+      newErrors.middleName = "Middle Name is required.";
+    } else if (form.middleName.length < 2) {
+      newErrors.middleName = "Middle Name must be at least 2 characters.";
+    } else if (!nameRegex.test(form.middleName)) {
+      newErrors.middleName = "Middle Name must not contain symbols or numbers.";
     }
 
     // Academic Year validation (e.g., 2023/24)
