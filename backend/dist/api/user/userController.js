@@ -935,10 +935,10 @@ const usersController = {
           studentProfile: true,
         },
       });
-
+const respp = role == "STUDENT" ? "student added successfully":"user added successfully";
       // Respond with the created user
       return res.status(201).json({
-        message: "Student added successfully",
+        message: respp,
         data: newUser,
         success: true,
       });

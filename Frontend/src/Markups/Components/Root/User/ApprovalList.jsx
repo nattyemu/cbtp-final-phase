@@ -33,7 +33,7 @@ function ApprovalList() {
 
   return (
     <>
-      <div className="text-center list mt-3 ">
+      <div className="text-center list mt-3  my-10">
         <h1>Approval List</h1>
       </div>
       <SearchInput

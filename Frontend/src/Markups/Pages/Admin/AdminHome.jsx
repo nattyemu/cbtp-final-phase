@@ -95,9 +95,9 @@ function AdminHome() {
             </div>
           </div>
           <div className="adminRight col-9">
-            {show && <Dashbord />}
-            {display && <AdminUser />}
-            {displayStudent && <AdminAddStudents />}
+            {/* {show ? <Dashbord />: " "} */}
+            {display ? <AdminUser />:
+            displayStudent ? <AdminAddStudents />:<Dashbord />}
           </div>
         </div>
       ) : (

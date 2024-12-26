@@ -232,14 +232,15 @@ function LoginForm() {
               </div>
             )}
           </div>
-          <div className="form-group">
+          <div className="">
             {/* <Link to="/forgetPassword" className="forgot-password-link">
               Forgot Password?
             </Link> */}
           </div>
-          <button type="submit" className="primary py-2">
+          <button type="submit" className="bg-gray-900 text-white py-2 w-full">
             Login
           </button>
+
         </form>
       </div>
     </div>

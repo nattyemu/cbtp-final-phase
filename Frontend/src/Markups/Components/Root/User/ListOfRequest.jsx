@@ -30,15 +30,20 @@ function ListOfRequest() {
 
   return (
     <>
-      <div className="text-center list mt-3">
+    <div className="">
+      <div className="text-center list my-6">
         <h1>List of Request</h1>
+        {/* <hr className="" /> */}
       </div>
-      <SearchInput
+      <SearchInput 
+        className=""
         setSendSearch={setSendSearch} // Pass setSearch to update the parent state
         placeholder="Search by first name or student ID from list of request"
       />
 
       <StudentTable userProp={users} search={sendSearch} />
+    </div>
+      
     </>
   );
 }

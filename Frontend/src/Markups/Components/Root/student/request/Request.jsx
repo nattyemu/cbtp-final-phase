@@ -39,7 +39,7 @@ function Request() {
   };
 
   return (
-    <div className="flex justify-center m-2 shadow-md rounded-lg w-full">
+    <div className="flex justify-center my-20  mx-60 shadow-md rounded-lg  w-[500px] border-[#141430]">
       <div className=" w-full">
         <h2 className="flex justify-center text-lg mx-5 my-4 font-bold sm:text-[18px] md:text-[22px] lg:text-[25px]">
           Request Clearance Form
@@ -109,7 +109,7 @@ function Request() {
               onClick={handleRequest}
               type="submit"
               value="Request"
-              className=" bg-green-700 text-white hover:bg-green-600  rounded-md"
+              className=" bg-[#141430] text-white  rounded-md"
             />
           </div>
         </form>

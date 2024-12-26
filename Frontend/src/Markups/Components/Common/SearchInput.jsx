@@ -32,18 +32,18 @@ function SearchInput({
   };
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex mb-10 ">
       <input
         type="text"
         placeholder={placeholder}
-        className="p-2 max-w-[403px] rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 mb-3"
+        className="p-2]  ml-[130px]  rounded-md border border-gray-300 focus:outline-none focus:ring-2 "
         value={searchTerm}
         onChange={handleInputChange}
         maxLength={maxLength}
         onKeyDown={handleKeyPress}
       />
       <button
-        className="ml-3 p-2 bg-blue-800 text-white rounded-md hover:bg-blue-600"
+        className="ml-3 px-5 py-2 bg-[#141430] text-white rounded-md"
         onClick={handleSearch}
       >
         Search
