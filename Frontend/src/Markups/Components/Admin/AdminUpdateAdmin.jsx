@@ -32,12 +32,15 @@ function AdminUpdateAdmin({ user }) {
 
   const validateForm = () => {
     const newErrors = {};
-
+    const nameRegex = /^[a-zA-Z\s]+$/;
     // Validate email
-    if (!form.email.trim()) newErrors.email = "Email is required.";
-    else if (!/\S+@\S+\.\S+/.test(form.email))
-      newErrors.email = "Email is invalid.";
-
+    if (!form.email) {
+      newErrors.email = "Email is required.";
+    } else if (form.email.length < 8) {
+      newErrors.email = "Email must be at least 8 characters.";
+    } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(form.email)) {
+      newErrors.email = "Email must be a valid format.";
+    }
     // Validate password (optional)
     if (form.password && form.password.trim().length < 8)
       newErrors.password = "Password must be at least 8 characters.";
@@ -46,19 +49,30 @@ function AdminUpdateAdmin({ user }) {
     if (!form.role) newErrors.role = "Role is required.";
 
     // Validate first name
-    if (!form.firstName.trim()) newErrors.firstName = "First Name is required.";
-    else if (form.firstName.trim().length < 2)
+    if (!form.firstName) {
+      newErrors.firstName = "First Name is required.";
+    } else if (form.firstName.length < 2) {
       newErrors.firstName = "First Name must be at least 2 characters.";
+    } else if (!nameRegex.test(form.firstName)) {
+      newErrors.firstName = "First Name must not contain symbols or numbers.";
+    }
 
     // Validate middle name
-    if (form.middleName.trim().length < 2)
+    if (!form.middleName) {
+      newErrors.middleName = "Middle Name is required.";
+    } else if (form.middleName.length < 2) {
       newErrors.middleName = "Middle Name must be at least 2 characters.";
-
+    } else if (!nameRegex.test(form.middleName)) {
+      newErrors.middleName = "Middle Name must not contain symbols or numbers.";
+    }
     // Validate last name
-    if (!form.lastName.trim()) newErrors.lastName = "Last Name is required.";
-    else if (form.lastName.trim().length < 2)
+    if (!form.lastName) {
+      newErrors.lastName = "Last Name is required.";
+    } else if (form.lastName.length < 2) {
       newErrors.lastName = "Last Name must be at least 2 characters.";
-
+    } else if (!nameRegex.test(form.lastName)) {
+      newErrors.lastName = "Last Name must not contain symbols or numbers.";
+    }
     // Validate sex
     if (!form.sex) newErrors.sex = "Gender is required.";
 
