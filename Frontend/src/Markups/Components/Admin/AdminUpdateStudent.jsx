@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AuthService from "../../../Service/AuthService";
+import { toast } from "react-toastify";
 
 // Updated regex to allow only alphabetic characters (including accented), spaces, apostrophes, and hyphens.
 const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/;
@@ -125,11 +126,13 @@ function AdminUpdateStudent({ user, removeUpdate }) {
       if (response?.success) {
         setForm(initialFormState); // Reset form on success
         setErrors({}); // Clear errors
+        toast.success("Student updated successfully");
         popDown();
       } else {
         setErrors({ general: response?.message }); // Handle error response
       }
     } catch (error) {
+      toast.error(response?.message);
       setErrors({ general: "Error updating student." });
       console.error("Error updating student:", error);
     }
@@ -143,164 +146,175 @@ function AdminUpdateStudent({ user, removeUpdate }) {
     removeUpdate(false);
   };
   return (
-    <div className="add-user pl-5 w-screen">
-      <div className="add-user-container shadow w-screen">
-        <h2 className="text-center fs-2 fw-bold">Update Student</h2>
+    <div className="add-user pl-5 w-screen items-center">
+      <div className="shadow-lg p-4 rounded bg-white ml-24">
+        <h2 className="text-center text-2xl font-bold mb-6">Update Student</h2>
         <form onSubmit={handleSubmit}>
           {errors.general && (
             <div className="text-red-500">{errors.general}</div>
           )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                maxLength={100}
+              />
+              {errors.email && (
+                <div className="text-red-500">{errors.email}</div>
+              )}
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-              maxLength={100}
-            />
-            {errors.email && <div className="text-red-500">{errors.email}</div>}
+            <div className="form-group">
+              <label htmlFor="password">New Password</label>
+              <input
+                type="password"
+                id="password"
+                value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                placeholder="Leave blank to keep current password"
+                maxLength={20}
+              />
+              {errors.password && (
+                <div className="text-red-500">{errors.password}</div>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="role">Role</label>
+              <select
+                id="role"
+                value={form.role}
+                onChange={(e) => setForm({ ...form, role: e.target.value })}
+              >
+                <option value="">Select Role</option>
+                <option value="ADMIN">Admin</option>
+                <option value="DEPARTMENT">Department</option>
+                <option value="CAFE">Cafe</option>
+                <option value="POLICE">Police</option>
+                <option value="LIBRARY">Library</option>
+                <option value="GARD">Gard</option>
+                <option value="PROCTOR">Proctor</option>
+                <option value="SUPERPROCTOR">Superproctor</option>
+                <option value="REGISTRAR">Registrar</option>
+                <option value="STUDENT">Student</option>
+              </select>
+              {errors.role && <div className="text-red-500">{errors.role}</div>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="faculty">Faculty</label>
+              <input
+                type="text"
+                id="faculty"
+                value={form.faculty}
+                onChange={(e) => setForm({ ...form, faculty: e.target.value })}
+                maxLength={50}
+              />
+              {errors.faculty && (
+                <div className="text-red-500">{errors.faculty}</div>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="department">Department</label>
+              <input
+                type="text"
+                id="department"
+                value={form.department}
+                onChange={(e) =>
+                  setForm({ ...form, department: e.target.value })
+                }
+                maxLength={50}
+              />
+              {errors.department && (
+                <div className="text-red-500">{errors.department}</div>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="studentId">Student ID</label>
+              <input
+                type="text"
+                id="studentId"
+                value={form.studentId}
+                onChange={(e) =>
+                  setForm({ ...form, studentId: e.target.value })
+                }
+                maxLength={9}
+              />
+              {errors.studentId && (
+                <div className="text-red-500">{errors.studentId}</div>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="firstName">First Name</label>
+              <input
+                type="text"
+                id="firstName"
+                value={form.firstName}
+                onChange={(e) =>
+                  setForm({ ...form, firstName: e.target.value })
+                }
+                maxLength={50}
+              />
+              {errors.firstName && (
+                <div className="text-red-500">{errors.firstName}</div>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="middleName">Middle Name</label>
+              <input
+                type="text"
+                id="middleName"
+                value={form.middleName}
+                onChange={(e) =>
+                  setForm({ ...form, middleName: e.target.value })
+                }
+                maxLength={50}
+              />
+              {errors.middleName && (
+                <div className="text-red-500">{errors.middleName}</div>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="lastName">Last Name</label>
+              <input
+                type="text"
+                id="lastName"
+                value={form.lastName}
+                onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+                maxLength={50}
+              />
+              {errors.lastName && (
+                <div className="text-red-500">{errors.lastName}</div>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="sex">Sex</label>
+              <select
+                id="sex"
+                value={form.sex}
+                onChange={(e) => setForm({ ...form, sex: e.target.value })}
+              >
+                <option value="">Select Gender</option>
+                <option value="MALE">Male</option>
+                <option value="FEMALE">Female</option>
+              </select>
+              {errors.sex && <div className="text-red-500">{errors.sex}</div>}
+            </div>
+
+            <button type="submit" className="btn btn-primary">
+              Update Student
+            </button>
           </div>
-
-          <div className="form-group">
-            <label htmlFor="password">New Password</label>
-            <input
-              type="password"
-              id="password"
-              value={form.password}
-              onChange={(e) => setForm({ ...form, password: e.target.value })}
-              placeholder="Leave blank to keep current password"
-              maxLength={20}
-            />
-            {errors.password && (
-              <div className="text-red-500">{errors.password}</div>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="role">Role</label>
-            <select
-              id="role"
-              value={form.role}
-              onChange={(e) => setForm({ ...form, role: e.target.value })}
-            >
-              <option value="">Select Role</option>
-              <option value="ADMIN">Admin</option>
-              <option value="DEPARTMENT">Department</option>
-              <option value="CAFE">Cafe</option>
-              <option value="POLICE">Police</option>
-              <option value="LIBRARY">Library</option>
-              <option value="GARD">Gard</option>
-              <option value="PROCTOR">Proctor</option>
-              <option value="SUPERPROCTOR">Superproctor</option>
-              <option value="REGISTRAR">Registrar</option>
-              <option value="STUDENT">Student</option>
-            </select>
-            {errors.role && <div className="text-red-500">{errors.role}</div>}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="faculty">Faculty</label>
-            <input
-              type="text"
-              id="faculty"
-              value={form.faculty}
-              onChange={(e) => setForm({ ...form, faculty: e.target.value })}
-              maxLength={50}
-            />
-            {errors.faculty && (
-              <div className="text-red-500">{errors.faculty}</div>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="department">Department</label>
-            <input
-              type="text"
-              id="department"
-              value={form.department}
-              onChange={(e) => setForm({ ...form, department: e.target.value })}
-              maxLength={50}
-            />
-            {errors.department && (
-              <div className="text-red-500">{errors.department}</div>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="studentId">Student ID</label>
-            <input
-              type="text"
-              id="studentId"
-              value={form.studentId}
-              onChange={(e) => setForm({ ...form, studentId: e.target.value })}
-              maxLength={9}
-            />
-            {errors.studentId && (
-              <div className="text-red-500">{errors.studentId}</div>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="firstName">First Name</label>
-            <input
-              type="text"
-              id="firstName"
-              value={form.firstName}
-              onChange={(e) => setForm({ ...form, firstName: e.target.value })}
-              maxLength={50}
-            />
-            {errors.firstName && (
-              <div className="text-red-500">{errors.firstName}</div>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="middleName">Middle Name</label>
-            <input
-              type="text"
-              id="middleName"
-              value={form.middleName}
-              onChange={(e) => setForm({ ...form, middleName: e.target.value })}
-              maxLength={50}
-            />
-            {errors.middleName && (
-              <div className="text-red-500">{errors.middleName}</div>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="lastName">Last Name</label>
-            <input
-              type="text"
-              id="lastName"
-              value={form.lastName}
-              onChange={(e) => setForm({ ...form, lastName: e.target.value })}
-              maxLength={50}
-            />
-            {errors.lastName && (
-              <div className="text-red-500">{errors.lastName}</div>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="sex">Sex</label>
-            <select
-              id="sex"
-              value={form.sex}
-              onChange={(e) => setForm({ ...form, sex: e.target.value })}
-            >
-              <option value="">Select Gender</option>
-              <option value="MALE">Male</option>
-              <option value="FEMALE">Female</option>
-            </select>
-            {errors.sex && <div className="text-red-500">{errors.sex}</div>}
-          </div>
-
-          <button type="submit" className="btn btn-primary">
-            Update Student
-          </button>
         </form>
       </div>
     </div>
