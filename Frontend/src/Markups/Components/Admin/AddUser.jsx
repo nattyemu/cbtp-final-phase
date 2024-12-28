@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import AuthService from "../../../Service/AuthService";
 import "./AddUse.css";
 import { toast } from "react-toastify";
-
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 function AddUser() {
   const [form, setForm] = useState({
     email: "",
@@ -16,6 +17,7 @@ function AddUser() {
 
   const [loading, setLoading] = useState(false); // Loading state to disable the button
   const [errors, setErrors] = useState({}); // Error state for validation
+  const [showPassword, setShowPassword] = useState(false);
 
   const validateForm = () => {
     const newErrors = {};
@@ -32,6 +34,14 @@ function AddUser() {
     // Password validation
     if (!form.password) {
       newErrors.password = "Password is required.";
+    } else if (
+      !/(?=.*[A-Z])/.test(form.password) || // At least one uppercase letter
+      !/(?=.*[a-z])/.test(form.password) || // At least one lowercase letter
+      !/(?=.*[0-9])/.test(form.password) || // At least one number
+      !/(?=.*[@#:$%^&*!]).{8,32}/.test(form.password) // At least one special character
+    ) {
+      newErrors.password =
+        "Password must contain an uppercase letter, a lowercase letter, a number, and a special character.";
     } else if (form.password.length < 8) {
       newErrors.password = "Password must be at least 8 characters.";
     }
@@ -144,7 +154,7 @@ function AddUser() {
               />
               {errors.email && <p className="text-red-600">{errors.email}</p>}
             </div>
-            <div className="form-group">
+            <div className="form-group relative">
               <label
                 htmlFor="password"
                 className="block text-sm font-medium mb-1"
@@ -152,13 +162,19 @@ function AddUser() {
                 Password
               </label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 value={form.password}
                 onChange={handleChange}
                 className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter password"
-              />
+              />{" "}
+              <span
+                className="absolute right-2 top-8 cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+              </span>
               {errors.password && (
                 <p className="text-red-600">{errors.password}</p>
               )}

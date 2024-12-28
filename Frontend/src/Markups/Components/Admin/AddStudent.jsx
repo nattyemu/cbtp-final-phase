@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import AuthService from "../../../Service/AuthService";
 import "./AddUse.css";
 import { toast } from "react-toastify";
-
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 function AddStudent() {
   const initialFormState = {
     email: "",
@@ -20,6 +21,7 @@ function AddStudent() {
 
   const [form, setForm] = useState(initialFormState);
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -44,8 +46,16 @@ function AddStudent() {
     // Password validation (8-32 characters)
     if (!form.password) {
       newErrors.password = "Password is required.";
-    } else if (form.password.length < 8 || form.password.length > 32) {
-      newErrors.password = "Password must be between 8 and 32 characters.";
+    } else if (
+      !/(?=.*[A-Z])/.test(form.password) || // At least one uppercase letter
+      !/(?=.*[a-z])/.test(form.password) || // At least one lowercase letter
+      !/(?=.*[0-9])/.test(form.password) || // At least one number
+      !/(?=.*[@#:$%^&*!]).{8,32}/.test(form.password) // At least one special character
+    ) {
+      newErrors.password =
+        "Password must contain an uppercase letter, a lowercase letter, a number, and a special character.";
+    } else if (form.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters.";
     }
 
     // Student ID validation (exactly 9 characters)
@@ -151,23 +161,47 @@ function AddStudent() {
                 type: "text",
                 id: "academicYear",
               },
-            ].map(({ label, type, id }) => (
-              <div key={id} className="addstudent">
-                <label htmlFor={id}>{label}</label>
-                <input
-                  type={type}
-                  id={id}
-                  value={form[id]}
-                  onChange={handleChange}
-                  className={`${
-                    errors[id] ? "border-red-500" : "border-gray-300"
-                  }`}
-                />
-                {errors[id] && (
-                  <p className="text-red-500 text-sm mt-1">{errors[id]}</p>
-                )}
-              </div>
-            ))}
+            ].map(({ label, type, id }) =>
+              label == "Password" ? (
+                <div key={id} className="addstudent relative">
+                  <label htmlFor={id}>{label}</label>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id={id}
+                    value={form[id]}
+                    onChange={handleChange}
+                    className={`${
+                      errors[id] ? "border-red-500" : "border-gray-300"
+                    }`}
+                  />
+                  <span
+                    className="absolute right-2 top-8 cursor-pointer"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                  </span>
+                  {errors[id] && (
+                    <p className="text-red-500 text-sm mt-1">{errors[id]}</p>
+                  )}
+                </div>
+              ) : (
+                <div key={id} className="addstudent">
+                  <label htmlFor={id}>{label}</label>
+                  <input
+                    type={type}
+                    id={id}
+                    value={form[id]}
+                    onChange={handleChange}
+                    className={`${
+                      errors[id] ? "border-red-500" : "border-gray-300"
+                    }`}
+                  />
+                  {errors[id] && (
+                    <p className="text-red-500 text-sm mt-1">{errors[id]}</p>
+                  )}
+                </div>
+              )
+            )}
             <div className="addstudent ">
               <label htmlFor="role">Role</label>
               <select

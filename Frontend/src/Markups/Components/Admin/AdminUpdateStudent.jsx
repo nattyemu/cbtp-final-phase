@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import AuthService from "../../../Service/AuthService";
 import { toast } from "react-toastify";
-
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 // Updated regex to allow only alphabetic characters (including accented), spaces, apostrophes, and hyphens.
 const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/;
 
@@ -21,6 +22,7 @@ function AdminUpdateStudent({ user, removeUpdate }) {
 
   const [form, setForm] = useState(initialFormState);
   const [errors, setErrors] = useState({}); // State to hold error messages
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -90,11 +92,20 @@ function AdminUpdateStudent({ user, removeUpdate }) {
       formErrors.role = "Role is required.";
     }
 
-    if (
-      form.password &&
-      (form.password.length < 8 || form.password.length > 20)
-    ) {
-      formErrors.password = "Password must be 8-20 characters if provided.";
+    if (form.password) {
+      if (!form.password) {
+        formErrors.password = "Password is required.";
+      } else if (
+        !/(?=.*[A-Z])/.test(form.password) || // At least one uppercase letter
+        !/(?=.*[a-z])/.test(form.password) || // At least one lowercase letter
+        !/(?=.*[0-9])/.test(form.password) || // At least one number
+        !/(?=.*[@#:$%^&*!]).{8,32}/.test(form.password) // At least one special character
+      ) {
+        formErrors.password =
+          "Password must contain an uppercase letter, a lowercase letter, a number, and a special character.";
+      } else if (form.password.length < 8) {
+        formErrors.password = "Password must be at least 8 characters.";
+      }
     }
 
     if (!form.faculty || form.faculty.length > 50) {
@@ -168,16 +179,22 @@ function AdminUpdateStudent({ user, removeUpdate }) {
               )}
             </div>
 
-            <div className="form-group">
+            <div className="form-group relative">
               <label htmlFor="password">New Password</label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
                 placeholder="Leave blank to keep current password"
                 maxLength={20}
               />
+              <span
+                className="absolute right-2 top-8 cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+              </span>
               {errors.password && (
                 <div className="text-red-500">{errors.password}</div>
               )}

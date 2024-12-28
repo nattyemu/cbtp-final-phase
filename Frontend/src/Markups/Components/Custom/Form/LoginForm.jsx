@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { userContext } from "../../../../Context/Authcontext";
 import getAuth from "../../../../Utilities/AuthHeader";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 function LoginForm() {
   const {
@@ -36,10 +38,10 @@ function LoginForm() {
   } = useContext(userContext);
   const [form, setForm] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false); // State for toggling password visibility
   const navigate = useNavigate();
-  // Validation for email format
+
   const validateEmail = (email) => {
-    // This pattern ensures valid emails like menge@gmail.com are allowed
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
   };
@@ -59,7 +61,6 @@ function LoginForm() {
     let email = e.target.value;
     let errorMessage = "";
 
-    // Check for basic validation rules
     if (email && email.length <= 3) {
       errorMessage = "Email must be greater than 3 characters";
     } else if (email && email.indexOf("@") === -1) {
@@ -70,23 +71,21 @@ function LoginForm() {
       errorMessage = "Expected format: example@gmail.com";
     }
 
-    // Update the form state
     setForm({ ...form, email });
 
-    // Validate the email format using the updated regex
     if (!validateEmail(email)) {
       setErrors({
         ...errors,
         email: errorMessage || "Please enter a valid email address",
       });
     } else {
-      setErrors({ ...errors, email: "" }); // Clear the error if the email is valid
+      setErrors({ ...errors, email: "" });
     }
   };
 
   const validatePassword = (password) => {
     if (password.length < 8 || password.length > 54) {
-      return "Password must be bettween 8 and 54 characters long";
+      return "Password must be between 8 and 54 characters long";
     }
     return "";
   };
@@ -125,7 +124,6 @@ function LoginForm() {
     return isValid;
   };
 
-  // Role-based navigation after successful login
   const navigateToRolePage = (userData) => {
     if (userData) {
       if (userData.role === "ADMIN") {
@@ -160,13 +158,12 @@ function LoginForm() {
     e.preventDefault();
 
     if (isLogged) {
-      console.log("check");
       checkIfLogin();
       return;
     } else {
       if (!validateForm()) {
         toast.error("Please fill the form before submitting.");
-        return; // Prevent submission if validation fails
+        return;
       }
     }
 
@@ -179,7 +176,6 @@ function LoginForm() {
         );
         toast.success(response.message);
 
-        // Update context and navigate based on the user's role
         navigateToRolePage(response?.data);
       } else {
         toast.error(response.message);
@@ -190,7 +186,7 @@ function LoginForm() {
   };
 
   return (
-    <div className=" bg-slate-100 w-screen h-screen mx-auto flex justify-center items-center shadow-xl">
+    <div className="bg-slate-100 w-screen h-screen mx-auto flex justify-center items-center shadow-xl">
       <div className="login-box w-full shadow-xl">
         <h2 className="text-3xl font-bold text-black">Login</h2>
         <form autoComplete="off" onSubmit={handleSubmit} className="w-full">
@@ -213,12 +209,12 @@ function LoginForm() {
               </div>
             )}
           </div>
-          <div className="form-group">
+          <div className="form-group relative">
             <label htmlFor="userPassword" className="mb-3">
               Password
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               className={`form-control ${errors.password ? "is-invalid" : ""}`}
               id="password"
               placeholder="Enter your password"
@@ -226,21 +222,21 @@ function LoginForm() {
               value={form.password}
               onChange={handlePasswordChange}
             />
+            <span
+              className="absolute right-2 top-12 cursor-pointer"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+            </span>
             {errors.password && (
               <div className="invalid-feedback text-red-600">
                 {errors.password}
               </div>
             )}
           </div>
-          <div className="">
-            {/* <Link to="/forgetPassword" className="forgot-password-link">
-              Forgot Password?
-            </Link> */}
-          </div>
           <button type="submit" className="bg-gray-900 text-white py-2 w-full">
             Login
           </button>
-
         </form>
       </div>
     </div>
