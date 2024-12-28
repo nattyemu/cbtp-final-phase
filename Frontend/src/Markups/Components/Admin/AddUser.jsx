@@ -177,6 +177,7 @@ function AddUser() {
               className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Select Role</option>
+              <option value="REGISTRAR">Registrar</option>
               <option value="DEPARTMENT">Department</option>
               <option value="LIBRARY">Librarian</option>
               <option value="GARD">Gard</option>
