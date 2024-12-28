@@ -212,6 +212,7 @@ export default {
   // request/sendTrueColumns
   sendTrueColumns: async () => {
     // console.log(form);
+    const data = await getAuth();
     try {
       const response = await axios.post("/request/sendTrueColumns", {
         id: data.id,
