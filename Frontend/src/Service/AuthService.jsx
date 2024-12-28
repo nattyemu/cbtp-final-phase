@@ -3,27 +3,28 @@ import getAuth from "../Utilities/AuthHeader";
 const data = await getAuth();
 export default {
   register: async (form) => {
-    // console.log(form);
+    console.log(form);
     try {
-      // const authToken = localStorage.getItem('authToken');
-      const response = await axios.post(
-        "/user/register",
-        form
-        // {
-        //   headers: {
-        //     Authorization: `${authToken}`, // Include the authentication token in the Authorization header
-        //     'Content-Type': 'application/json', // Optionally specify the content type
-        //   },
-        // }
-      );
-      // console.log(response);
-      return response?.data;
+      // Check if the form is an array or object
+      if (Array.isArray(form)) {
+        // If it's an array, handle multiple registrations
+        const responses = [];
+        for (const item of form) {
+          const response = await axios.post("/user/register", item);
+          responses.push(response.data);
+        }
+        return responses; // Return an array of responses
+      } else {
+        // If it's a single object, send it directly
+        const response = await axios.post("/user/register", form);
+        return response.data;
+      }
     } catch (error) {
-      // console.log(error);
-      // return error.response.data;
-      return error?.response?.data;
+      console.log(error);
+      return error.response?.data || { message: "Error occurred" };
     }
   },
+
   getUsers: async (form) => {
     // console.log(form);
     try {

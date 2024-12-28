@@ -71,15 +71,16 @@ function Registral() {
                 </div>
               )}
             </div>
-            {selectedOption === "form" && (
+            {selectedOption === "form" ? (
               <div className="form-container">
                 <AddStudent />
               </div>
-            )}
-            {selectedOption === "file" && (
-              <div className="form-container">
-                <FileUpload />
-              </div>
+            ) : (
+              selectedOption === "file" && (
+                <div className="form-container">
+                  <FileUpload />
+                </div>
+              )
             )}
           </div>
           <div>
