@@ -15,7 +15,7 @@ function AdminAddStudents() {
 
   const handleDropdownToggle = () => {
     setShowDropdown(!showDropdown);
-    setShowTable(false)
+    setShowTable(false);
   };
 
   const handleOptionClick = (option) => {
@@ -75,7 +75,7 @@ function AdminAddStudents() {
           </div>
         )}
 
-      {!showTable && selectedOption === "" && (
+        {!showTable && selectedOption === "" && (
           <div className="form-container">
             <ClearIcon
               onClick={handleBackToTable}
@@ -86,10 +86,10 @@ function AdminAddStudents() {
         )}
       </div>
       {showTable && (
-      <div>
-        <AdminAddStudentTable />
-      </div>
-    )}
+        <div>
+          <AdminAddStudentTable />
+        </div>
+      )}
     </>
   );
 }

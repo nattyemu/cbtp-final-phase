@@ -106,8 +106,8 @@ function AdminUpdateAdmin({ user }) {
   }
 
   return (
-    <div className="add-user p-5">
-      <div className="add-user-container shadow">
+    <div className="add-user p-5  w-screen">
+      <div className="add-user-container shadow  w-screen">
         <h2 className="text-center fs-2 fw-bold">Update Admin</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">

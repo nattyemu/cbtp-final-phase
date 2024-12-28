@@ -14,6 +14,7 @@ function ViewProgress() {
     try {
       const findIdFromStorage = await getAuth();
       const response = await UserService.count({ id: findIdFromStorage?.id });
+
       setCountTrue(response);
       const info = await AuthService.getMy({ id: findIdFromStorage?.id });
       // console.log(info?.data);
@@ -28,7 +29,7 @@ function ViewProgress() {
   }, []);
   if (!userDataInContext?.request?.length) {
     return (
-      <div className="text-center font-bold text-2xl flex justify-center flex-col">
+      <div className="text-center w-full h-full flex justify-center items-center font-bold text-2xl">
         You don't have any clearance request
       </div>
     );

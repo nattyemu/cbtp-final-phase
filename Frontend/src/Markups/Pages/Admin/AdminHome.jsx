@@ -94,10 +94,15 @@ function AdminHome() {
               </div>
             </div>
           </div>
-          <div className="adminRight col-9">
+          <div className="adminRight col-9 ">
             {/* {show ? <Dashbord />: " "} */}
-            {display ? <AdminUser />:
-            displayStudent ? <AdminAddStudents />:<Dashbord />}
+            {display ? (
+              <AdminUser />
+            ) : displayStudent ? (
+              <AdminAddStudents />
+            ) : (
+              <Dashbord />
+            )}
           </div>
         </div>
       ) : (

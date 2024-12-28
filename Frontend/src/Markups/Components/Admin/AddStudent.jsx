@@ -131,79 +131,83 @@ function AddStudent() {
   };
 
   return (
-    <div className="add-user p-5">
-      <div className="shadow">
-        <h2 className="text-center fs-2 fw-bold">Add Student</h2>
+    <div className="add-user p-5 w-screen items-center ">
+      <div className="shadow-lg p-4 rounded bg-white ml-24">
+        <h2 className="text-center text-2xl font-bold mb-6">Add Student</h2>
 
         <form onSubmit={handleSubmit}>
-          {[
-            { label: "Email", type: "email", id: "email" },
-            { label: "Password", type: "password", id: "password" },
-            { label: "Student ID", type: "text", id: "studentId" },
-            { label: "Faculty", type: "text", id: "faculty" },
-            { label: "Department", type: "text", id: "department" },
-            { label: "First Name", type: "text", id: "firstName" },
-            { label: "Middle Name", type: "text", id: "middleName" },
-            { label: "Last Name", type: "text", id: "lastName" },
-            {
-              label: "Academic Year (e.g., 2023/24)",
-              type: "text",
-              id: "academicYear",
-            },
-          ].map(({ label, type, id }) => (
-            <div key={id} className="addstudent">
-              <label htmlFor={id}>{label}</label>
-              <input
-                type={type}
-                id={id}
-                value={form[id]}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {[
+              { label: "Email", type: "email", id: "email" },
+              { label: "Password", type: "password", id: "password" },
+              { label: "Student ID", type: "text", id: "studentId" },
+              { label: "Faculty", type: "text", id: "faculty" },
+              { label: "Department", type: "text", id: "department" },
+              { label: "First Name", type: "text", id: "firstName" },
+              { label: "Middle Name", type: "text", id: "middleName" },
+              { label: "Last Name", type: "text", id: "lastName" },
+              {
+                label: "Academic Year (e.g., 2023/24)",
+                type: "text",
+                id: "academicYear",
+              },
+            ].map(({ label, type, id }) => (
+              <div key={id} className="addstudent">
+                <label htmlFor={id}>{label}</label>
+                <input
+                  type={type}
+                  id={id}
+                  value={form[id]}
+                  onChange={handleChange}
+                  className={`${
+                    errors[id] ? "border-red-500" : "border-gray-300"
+                  }`}
+                />
+                {errors[id] && (
+                  <p className="text-red-500 text-sm mt-1">{errors[id]}</p>
+                )}
+              </div>
+            ))}
+            <div className="addstudent ">
+              <label htmlFor="role">Role</label>
+              <select
+                id="role"
+                value={form.role}
                 onChange={handleChange}
                 className={`${
-                  errors[id] ? "border-red-500" : "border-gray-300"
+                  errors.role ? "border-red-500" : "border-gray-300"
                 }`}
-              />
-              {errors[id] && (
-                <p className="text-red-500 text-sm mt-1">{errors[id]}</p>
+              >
+                <option value="STUDENT">Student</option>
+              </select>
+              {errors.role && (
+                <p className="text-red-500 text-sm mt-1">{errors.role}</p>
               )}
             </div>
-          ))}
-          <div className="addstudent">
-            <label htmlFor="role">Role</label>
-            <select
-              id="role"
-              value={form.role}
-              onChange={handleChange}
-              className={`${
-                errors.role ? "border-red-500" : "border-gray-300"
-              }`}
-            >
-              <option value="STUDENT">Student</option>
-            </select>
-            {errors.role && (
-              <p className="text-red-500 text-sm mt-1">{errors.role}</p>
-            )}
-          </div>
-          <div className="addstudent">
-            <label htmlFor="sex">Sex</label>
-            <select
-              id="sex"
-              value={form.sex}
-              onChange={handleChange}
-              className={`${errors.sex ? "border-red-500" : "border-gray-300"}`}
-            >
-              <option value="">Select Gender</option>
-              <option value="MALE">Male</option>
-              <option value="FEMALE">Female</option>
-            </select>
-            {errors.sex && (
-              <p className="text-red-500 text-sm mt-1">{errors.sex}</p>
-            )}
-          </div>
+            <div className="addstudent">
+              <label htmlFor="sex">Sex</label>
+              <select
+                id="sex"
+                value={form.sex}
+                onChange={handleChange}
+                className={`${
+                  errors.sex ? "border-red-500" : "border-gray-300"
+                }`}
+              >
+                <option value="">Select Gender</option>
+                <option value="MALE">Male</option>
+                <option value="FEMALE">Female</option>
+              </select>
+              {errors.sex && (
+                <p className="text-red-500 text-sm mt-1">{errors.sex}</p>
+              )}
+            </div>
 
-          <div className="addstudent mt-3">
-            <button type="submit" className="btn btn-primary">
-              Submit
-            </button>
+            <div className="addstudent mt-3">
+              <button type="submit" className="btn btn-primary">
+                Submit
+              </button>
+            </div>
           </div>
         </form>
       </div>

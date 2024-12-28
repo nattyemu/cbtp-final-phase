@@ -140,8 +140,8 @@ function AdminUpdateStudent({ user }) {
   }
 
   return (
-    <div className="add-user p-5">
-      <div className="add-user-container shadow">
+    <div className="add-user pl-5 w-screen">
+      <div className="add-user-container shadow w-screen">
         <h2 className="text-center fs-2 fw-bold">Update Student</h2>
         <form onSubmit={handleSubmit}>
           {errors.general && (

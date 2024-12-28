@@ -15,6 +15,7 @@ import { formatDateTime } from "../../../../Utilities/timeFormatter";
 import { toast } from "react-toastify";
 import AdminUpdateStudent from "../../Admin/AdminUpdateStudent";
 import SearchInput from "../../Common/SearchInput";
+import ClearIcon from "@mui/icons-material/Clear";
 
 function AdminAddStudentTable() {
   const [showUpdate, setShowUpdate] = useState(false);
@@ -22,7 +23,8 @@ function AdminAddStudentTable() {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [sendSearch, setSendSearch] = useState({});
-
+  const [showTable, setShowTable] = useState(true);
+  // const [selectedOption, setSelectedOption] = useState("");
   useEffect(() => {
     fetchData();
   }, []);
@@ -69,62 +71,85 @@ function AdminAddStudentTable() {
   const handleUpdate = (user) => {
     setSelectedUser(user);
     setShowUpdate(true);
+    setShowTable(false);
   };
 
+  const click = () => {
+    setShowUpdate(false);
+    setShowTable(true);
+  };
   return (
     <>
-      {showUpdate && <AdminUpdateStudent user={selectedUser} />}
-
-      <SearchInput
-        setSendSearch={setSendSearch}
-        placeholder="Search by first name or student ID"
-      />
-
-      <TableContainer component={Paper} className="ml-32">
-        <Table sx={{ minWidth: 650 }} aria-label="student table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Roll no</TableCell>
-              <TableCell>User Name</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Student ID</TableCell>
-              <TableCell>Sex</TableCell>
-              <TableCell>Created At</TableCell>
-              <TableCell>Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {filteredUsers.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan="7" className="text-center">
-                  No results found.
-                </TableCell>
-              </TableRow>
-            ) : (
-              filteredUsers.map((singleUser) => (
-                <TableRow key={singleUser.id}>
-                  <TableCell>{singleUser.id}</TableCell>
-                  <TableCell>{singleUser.email}</TableCell>
-                  <TableCell>
-                    {singleUser.profile.firstName +
-                      " " +
-                      singleUser.profile.lastName}
-                  </TableCell>
-                  <TableCell>{singleUser?.studentProfile?.studentId}</TableCell>
-                  <TableCell>{singleUser.profile.sex}</TableCell>
-                  <TableCell>{formatDateTime(singleUser.createdAt)}</TableCell>
-                  <TableCell
-                    onClick={() => handleUpdate(singleUser)}
-                    className="cursor-pointer"
-                  >
-                    <EditIcon />
-                  </TableCell>
+      {showUpdate && (
+        <div className="w-full  relative">
+          <AdminUpdateStudent user={selectedUser} />
+          <ClearIcon
+            onClick={click}
+            className="absolute top-0 right-0 ml-[-22px] text-[#141430]"
+            style={{ cursor: "pointer" }}
+          />
+        </div>
+      )}
+      {showTable && (
+        <>
+          <SearchInput
+            setSendSearch={setSendSearch}
+            placeholder="Search by first name or student ID"
+          />
+          <h2 className="text-center text-2xl text-black mt-[-12px] mb-4">
+            Student Table
+          </h2>
+          <TableContainer component={Paper} className="ml-32">
+            <Table sx={{ minWidth: 650 }} aria-label="student table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Roll no</TableCell>
+                  <TableCell>User Name</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Student ID</TableCell>
+                  <TableCell>Sex</TableCell>
+                  <TableCell>Created At</TableCell>
+                  <TableCell>Action</TableCell>
                 </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+              </TableHead>
+              <TableBody>
+                {filteredUsers.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan="7" className="text-center">
+                      No results found.
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  filteredUsers.map((singleUser) => (
+                    <TableRow key={singleUser.id}>
+                      <TableCell>{singleUser.id}</TableCell>
+                      <TableCell>{singleUser.email}</TableCell>
+                      <TableCell>
+                        {singleUser.profile.firstName +
+                          " " +
+                          singleUser.profile.lastName}
+                      </TableCell>
+                      <TableCell>
+                        {singleUser?.studentProfile?.studentId}
+                      </TableCell>
+                      <TableCell>{singleUser.profile.sex}</TableCell>
+                      <TableCell>
+                        {formatDateTime(singleUser.createdAt)}
+                      </TableCell>
+                      <TableCell
+                        onClick={() => handleUpdate(singleUser)}
+                        className="cursor-pointer"
+                      >
+                        <EditIcon />
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
+      )}
     </>
   );
 }

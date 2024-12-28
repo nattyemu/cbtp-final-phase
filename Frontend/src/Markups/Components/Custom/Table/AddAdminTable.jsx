@@ -13,14 +13,14 @@ import { toast } from "react-toastify";
 import AdminUpdateAdmin from "../../Admin/AdminUpdateAdmin";
 import AuthService from "../../../../Service/AuthService";
 import SearchInput from "../../Common/SearchInput";
-
+import ClearIcon from "@mui/icons-material/Clear";
 function AddAdminTable() {
   const [showUpdate, setShowUpdate] = useState(false);
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [sendSearch, setSendSearch] = useState({});
-
+  const [showTable, setShowTable] = useState(true);
   useEffect(() => {
     fetchData();
   }, []);
@@ -65,41 +65,63 @@ function AddAdminTable() {
     setSelectedUser(user);
     console.log("Selected User:", user);
     setShowUpdate(true);
+    setShowTable(false);
   };
 
+  const click = () => {
+    setShowUpdate(false);
+    setShowTable(true);
+  };
   return (
     <>
-      {showUpdate && <AdminUpdateAdmin user={selectedUser} />}
-      <SearchInput
-        setSendSearch={setSendSearch}
-        placeholder="Search by first name or student ID"
-      />
-      <TableContainer component={Paper} className="ml-32">
-          <Table>
-          <TableBody>
-            {filteredUsers &&
-              filteredUsers.map((singleUser) => (
-                <TableRow key={singleUser.id}>
-                  <TableCell>{singleUser.id}</TableCell>
-                  <TableCell>{singleUser.email}</TableCell>
-                  <TableCell>
-                    {singleUser.profile.firstName +
-                      " " +
-                      singleUser.profile.lastName}
-                  </TableCell>
-                  <TableCell>{singleUser.role}</TableCell>
-                  <TableCell>{singleUser.profile.sex}</TableCell>
-                  <TableCell
-                    onClick={() => handleUpdate(singleUser)}
-                    className="cursor-pointer"
-                  >
-                    <EditIcon />
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {showUpdate && (
+        <div className="w-full  relative">
+          <AdminUpdateAdmin user={selectedUser} />
+          <ClearIcon
+            onClick={click}
+            className="absolute top-0 right-0 ml-[-22px] text-[#141430]"
+            style={{ cursor: "pointer" }}
+          />
+        </div>
+      )}
+
+      {showTable && (
+        <>
+          <SearchInput
+            setSendSearch={setSendSearch}
+            placeholder="Search by first name or student ID"
+          />
+          <h2 className="text-center text-2xl text-black mt-[-12px] mb-4">
+            Users Table
+          </h2>
+          <TableContainer component={Paper} className="ml-32">
+            <Table>
+              <TableBody>
+                {filteredUsers &&
+                  filteredUsers.map((singleUser) => (
+                    <TableRow key={singleUser.id}>
+                      <TableCell>{singleUser.id}</TableCell>
+                      <TableCell>{singleUser.email}</TableCell>
+                      <TableCell>
+                        {singleUser.profile.firstName +
+                          " " +
+                          singleUser.profile.lastName}
+                      </TableCell>
+                      <TableCell>{singleUser.role}</TableCell>
+                      <TableCell>{singleUser.profile.sex}</TableCell>
+                      <TableCell
+                        onClick={() => handleUpdate(singleUser)}
+                        className="cursor-pointer"
+                      >
+                        <EditIcon />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
+      )}
     </>
   );
 }
