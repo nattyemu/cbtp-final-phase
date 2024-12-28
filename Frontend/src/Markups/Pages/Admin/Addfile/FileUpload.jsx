@@ -4,7 +4,7 @@ import Papa from "papaparse"; // Library for parsing CSV files
 import "./fileUpload.css";
 import AuthService from "../../../../Service/AuthService";
 
-function FileUpload() {
+function FileUpload({ handleBackToTable }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false); // Tracks upload state
 
@@ -36,7 +36,7 @@ function FileUpload() {
             lastName: row["Last Name"],
             sex: row.Gender.toUpperCase(),
             academicYear: row["Academic Year"] || null,
-            imageUrl: row.ImageUrl || "https://example.com/profile.jpg",
+            imageUrl: row.ImageUrl || "",
             activeStatus: row.ActiveStatus?.toLowerCase() === "true",
           }));
           resolve(formattedData);
@@ -59,23 +59,45 @@ function FileUpload() {
       setIsUploading(true); // Set uploading state
       const parsedData = await parseCSV(selectedFile);
 
-      const response = await AuthService.register(parsedData); // Send data to API
+      // Send data to API
+      const response = await AuthService.register(parsedData);
 
-      if (response?.success) {
-        toast.dismiss();
-        toast.success(response.data.message || "File uploaded successfully!");
-        setSelectedFile(null); // Clear selected file after success
+      if (Array.isArray(response)) {
+        // Bulk upload response handling
+        const successCount = response.filter((res) => res.success).length;
+        const errorCount = response.length - successCount;
+        handlePopTheTable();
+        toast.success(
+          `${successCount} users successfully registered. ${errorCount} failed.`
+        );
+
+        // Optional: Log detailed results for debugging
+        response.forEach((res, index) => {
+          if (!res.success) {
+            console.error(`Error for record ${index + 1}:`, res.message);
+          }
+        });
+      } else if (response?.success) {
+        // Single upload response handling
+        toast.success(response.message || "User registered successfully!");
+        handlePopTheTable();
       } else {
-        toast.dismiss();
         toast.error(response?.message || "File upload failed.");
       }
+
+      setSelectedFile(null); // Clear selected file after success
     } catch (error) {
       toast.dismiss();
-      // console.error("Error parsing or uploading the file:", error);
-      toast.error("An error occurred while uploading the file.");
+      console.error("Error parsing or uploading the file:", error);
+      toast.error(
+        error.message || "An error occurred while uploading the file."
+      );
     } finally {
       setIsUploading(false); // Reset uploading state
     }
+  };
+  const handlePopTheTable = () => {
+    handleBackToTable();
   };
 
   return (

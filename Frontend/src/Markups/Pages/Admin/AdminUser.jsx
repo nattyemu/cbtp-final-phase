@@ -93,7 +93,7 @@ function AdminUser(props) {
               className="absolute top-0 right-0 m-5 text-[#141430]"
               style={{ cursor: "pointer" }}
             />
-            <FileUpload />
+            <FileUpload handleBackToTable={handleBackToTable} />
           </div>
         )}
 
@@ -108,7 +108,7 @@ function AdminUser(props) {
         )}
       </div>
 
-      {showTable && !selectedOption &&(
+      {showTable && !selectedOption && (
         <div>
           {/* AddAdminTable includes both the table and search */}
           <AddAdminTable />
