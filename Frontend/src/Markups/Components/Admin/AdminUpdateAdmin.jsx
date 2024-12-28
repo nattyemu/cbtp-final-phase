@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import AuthService from "../../../Service/AuthService";
 import { toast } from "react-toastify";
 
-function AdminUpdateAdmin({ user }) {
+function AdminUpdateAdmin({ user, removeUpdate }) {
   const initialFormState = {
     firstName: "",
     middleName: "",
@@ -92,6 +92,7 @@ function AdminUpdateAdmin({ user }) {
       if (response?.success) {
         toast.success(response?.message);
         setForm(initialFormState); // Reset form on success
+        popDown();
       } else {
         toast.error(response?.message);
       }
@@ -104,7 +105,9 @@ function AdminUpdateAdmin({ user }) {
   if (!user) {
     return <div>Loading...</div>;
   }
-
+  const popDown = () => {
+    removeUpdate(false);
+  };
   return (
     <div className="add-user p-5  w-screen">
       <div className="add-user-container shadow  w-screen">

@@ -72,11 +72,15 @@ function AddAdminTable() {
     setShowUpdate(false);
     setShowTable(true);
   };
+  const removeUpdate = (bool) => {
+    setShowUpdate(bool);
+    setShowTable(!bool);
+  };
   return (
     <>
       {showUpdate && (
         <div className="w-full  relative">
-          <AdminUpdateAdmin user={selectedUser} />
+          <AdminUpdateAdmin user={selectedUser} removeUpdate={removeUpdate} />
           <ClearIcon
             onClick={click}
             className="absolute top-0 right-0 ml-[-22px] text-[#141430]"

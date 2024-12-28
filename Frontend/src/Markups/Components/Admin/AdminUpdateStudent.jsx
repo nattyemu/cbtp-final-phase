@@ -4,7 +4,7 @@ import AuthService from "../../../Service/AuthService";
 // Updated regex to allow only alphabetic characters (including accented), spaces, apostrophes, and hyphens.
 const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/;
 
-function AdminUpdateStudent({ user }) {
+function AdminUpdateStudent({ user, removeUpdate }) {
   const initialFormState = {
     faculty: "",
     department: "",
@@ -125,6 +125,7 @@ function AdminUpdateStudent({ user }) {
       if (response?.success) {
         setForm(initialFormState); // Reset form on success
         setErrors({}); // Clear errors
+        popDown();
       } else {
         setErrors({ general: response?.message }); // Handle error response
       }
@@ -138,7 +139,9 @@ function AdminUpdateStudent({ user }) {
   if (!user) {
     return <div>Loading...</div>;
   }
-
+  const popDown = () => {
+    removeUpdate(false);
+  };
   return (
     <div className="add-user pl-5 w-screen">
       <div className="add-user-container shadow w-screen">
