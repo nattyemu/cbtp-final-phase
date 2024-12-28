@@ -158,7 +158,6 @@ function AddStudent() {
                 id={id}
                 value={form[id]}
                 onChange={handleChange}
-                required
                 className={`${
                   errors[id] ? "border-red-500" : "border-gray-300"
                 }`}
@@ -174,7 +173,6 @@ function AddStudent() {
               id="role"
               value={form.role}
               onChange={handleChange}
-              required
               className={`${
                 errors.role ? "border-red-500" : "border-gray-300"
               }`}
@@ -191,7 +189,6 @@ function AddStudent() {
               id="sex"
               value={form.sex}
               onChange={handleChange}
-              required
               className={`${errors.sex ? "border-red-500" : "border-gray-300"}`}
             >
               <option value="">Select Gender</option>
