@@ -935,7 +935,10 @@ const usersController = {
           studentProfile: true,
         },
       });
-const respp = role == "STUDENT" ? "student added successfully":"user added successfully";
+      const respp =
+        role == "STUDENT"
+          ? "student added successfully"
+          : "user added successfully";
       // Respond with the created user
       return res.status(201).json({
         message: respp,
@@ -1057,14 +1060,14 @@ const respp = role == "STUDENT" ? "student added successfully":"user added succe
       const result = { ...updatedUserProfile, ...updatedStudentProfile };
       // Return the updated profiles in the response
       return res.status(200).json({
-        message: "User profile updated successfully",
+        message: "User's data updated successfully",
         data: result,
         success: true,
       });
     } catch (error) {
       console.error("Error updating user profile:", error);
       return res.status(500).json({
-        message: "Failed to update user profile",
+        message: "Failed to update user's data ",
         success: false,
       });
     }
