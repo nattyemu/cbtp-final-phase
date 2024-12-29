@@ -61,8 +61,8 @@ function AdminHome() {
   return (
     <>
       {data && data.role === "ADMIN" ? (
-        <div className="admin row">
-          <div className="adminLeft col-3">
+        <div className="admin flex h-full">
+          <div className="adminLeft col-3 ">
             <div className="profile pt-5">
               <img src={img} alt="" />
               <p>{data?.role}</p>
@@ -94,7 +94,7 @@ function AdminHome() {
               </div>
             </div>
           </div>
-          <div className="adminRight col-9 ">
+          <div className="adminRight col-9 flex-1 m-0">
             {/* {show ? <Dashbord />: " "} */}
             {display ? (
               <AdminUser />

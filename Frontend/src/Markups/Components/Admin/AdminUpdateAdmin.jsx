@@ -135,9 +135,9 @@ function AdminUpdateAdmin({ user, removeUpdate }) {
     removeUpdate(false);
   };
   return (
-    <div className="add-user p-5  w-screen">
-      <div className="add-user-container shadow  w-screen">
-        <h2 className="text-center fs-2 fw-bold">Update Admin</h2>
+    <div className="add-user pl-5  w-screen items-center">
+      <div className="shadow-lg p-4 rounded bg-white ">
+        <h2 className="text-center text-2xl font-bold mb-6">Update Admin</h2>
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="form-group">

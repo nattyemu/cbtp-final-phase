@@ -12,28 +12,30 @@ function DebtInfo() {
   };
 
   return (
-    <div>
-      <header className="m-5">
-        <nav>
-          <ul>
-            <li>
-              <button
-                onClick={() =>
-                  view == "addDebt"
-                    ? handleViewChange("viewDebt")
-                    : handleViewChange("addDebt")
-                }
-                className="p-3"
-              >
-                {view == "addDebt" ? "View Debt" : "Add Debt"}
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </header>
-      <div className="contentDebt">
-        {view === "addDebt" && <AddDebt />}
-        {view === "viewDebt" && <DebtTable />}
+    <div className="mt-4 w-full flex justify-center">
+      <div className="items-center ">
+        <header className=" items-center">
+          <nav>
+            <ul>
+              <li>
+                <button
+                  onClick={() =>
+                    view == "addDebt"
+                      ? handleViewChange("viewDebt")
+                      : handleViewChange("addDebt")
+                  }
+                  className="p-3 bg-[#141430] border-neutral-50 rounded-xl "
+                >
+                  {view == "addDebt" ? "View Debt" : "Add Debt"}
+                </button>
+              </li>
+            </ul>
+          </nav>
+        </header>
+        <div className="contentDebt ">
+          {view === "addDebt" && <AddDebt />}
+          {view === "viewDebt" && <DebtTable />}
+        </div>
       </div>
     </div>
   );

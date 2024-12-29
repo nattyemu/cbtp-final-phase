@@ -162,7 +162,7 @@ function AdminUpdateStudent({ user, removeUpdate }) {
   };
   return (
     <div className="add-user pl-5 w-screen items-center">
-      <div className="shadow-lg p-4 rounded bg-white ml-24">
+      <div className="shadow-lg p-4 rounded bg-white ">
         <h2 className="text-center text-2xl font-bold mb-6">Update Student</h2>
         <form onSubmit={handleSubmit}>
           {errors.general && (

@@ -5,14 +5,16 @@ import ApprovalList from "./ApprovalList";
 import ListOfRequest from "./ListOfRequest";
 import DebtInfo from "./Debt/DebtInfo";
 import { userContext } from "../../../../Context/Authcontext";
-import getAuth from "../../../../Utilities/AuthHeader";
 import { useNavigate } from "react-router-dom";
+
+import DefaultTabel from "./DefaultTabel";
 
 function RegistrarPage({ loinData }) {
   const { setIsLogged, isLogged, setUserData } = useContext(userContext);
   const [showLrequest, setLrequest] = useState(false);
   const [showApproval, setApproval] = useState(false);
   const [showDept, setDept] = useState(false);
+  const [showDefalult, setShowDefalult] = useState(true);
   const [data, setData] = useState(loinData);
   const navigate = useNavigate();
 
@@ -25,18 +27,27 @@ function RegistrarPage({ loinData }) {
     setLrequest(true);
     setApproval(false);
     setDept(false);
+    setShowDefalult(false);
   };
 
   const handleApproval = () => {
     setApproval(true);
     setLrequest(false);
     setDept(false);
+    setShowDefalult(false);
   };
 
   const handleDept = () => {
     setDept(true);
     setLrequest(false);
     setApproval(false);
+    setShowDefalult(false);
+  };
+  const handleTable = () => {
+    setDept(false);
+    setLrequest(false);
+    setApproval(false);
+    setShowDefalult(true);
   };
 
   const handleLogout = () => {
@@ -49,7 +60,7 @@ function RegistrarPage({ loinData }) {
   return (
     <div>
       <div>
-        <div className="user row">
+        <div className="user flex ">
           <div className="Left-part col-3">
             <div className="profile pt-5">
               <img src={img} alt="" />
@@ -58,6 +69,9 @@ function RegistrarPage({ loinData }) {
               <hr />
             </div>
             <div className="fw-bold">
+              <div className="user-menu">
+                <p onClick={handleTable}>Table of Student</p>
+              </div>
               <div className="user-menu">
                 <p onClick={handleLRequest}>List of Request</p>
               </div>
@@ -72,7 +86,8 @@ function RegistrarPage({ loinData }) {
               </div>
             </div>
           </div>
-          <div className="Right-part col-9">
+          <div className="Right-part col-9 flex-1 m-5">
+            {showDefalult && <DefaultTabel />}
             {showLrequest && <ListOfRequest />}
             {showApproval && <ApprovalList />}
             {showDept && <DebtInfo />}

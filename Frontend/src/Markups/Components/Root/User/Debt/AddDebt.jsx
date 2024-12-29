@@ -68,7 +68,7 @@ function AddDebt() {
   };
 
   return (
-    <div className="">
+    <div className="m-0 w-[180%]">
       <div className="shadow">
         <h2 className="text-center fs-2 p-3 fw-bold">Add Debt</h2>
         <form>
@@ -97,11 +97,7 @@ function AddDebt() {
               {errors.reason && <p className="text-red-600">{errors.reason}</p>}
             </div>
             <div className="form-group mt-3">
-              <button
-                type="submit"
-                variant="contained"
-                onClick={handleSumbit}
-              >
+              <button type="submit" variant="contained" onClick={handleSumbit}>
                 Submit
               </button>
             </div>
