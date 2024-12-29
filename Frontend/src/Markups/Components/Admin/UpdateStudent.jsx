@@ -3,7 +3,8 @@ import AuthService from "../../../Service/AuthService";
 import { toast } from "react-toastify";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-function UpdateStudent({ user }) {
+import ClearIcon from "@mui/icons-material/Clear";
+function UpdateStudent({ user, popDown }) {
   const initialFormState = {
     faculty: "",
     department: "",
@@ -128,140 +129,158 @@ function UpdateStudent({ user }) {
       console.error("Error updating student:", error);
     }
   };
-
+  const popup = () => {
+    popDown();
+    // console.log("first");
+  };
   return (
-    <div className="add-user p-5">
-      <div className="add-user-container shadow">
+    <div className="add-user  p-5 w-screen relative">
+      <ClearIcon
+        onClick={popup}
+        className="absolute top-0 hover:text-red-400 right-0 ml-[-22px] text-[#141430]"
+        style={{ cursor: "pointer" }}
+      />
+      <div className="w-full-container  shadow">
         <h2 className="text-center fs-2 fw-bold">Update Student</h2>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="faculty">Faculty</label>
-            <input
-              type="text"
-              id="faculty"
-              value={form.faculty}
-              onChange={(e) => setForm({ ...form, faculty: e.target.value })}
-              aria-describedby="faculty-error"
-            />
-            {errors.faculty && (
-              <p id="faculty-error" className="text-red-600">
-                {errors.faculty}
-              </p>
-            )}
-          </div>
-          <div className="form-group relative">
-            <label htmlFor="password">New Password</label>
-            <input
-              type={showPassword ? "text" : "password"}
-              id="password"
-              value={form.password}
-              onChange={(e) => setForm({ ...form, password: e.target.value })}
-              placeholder="Leave blank to keep current password"
-            />
-            <span
-              className="absolute right-2 top-8 cursor-pointer"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-            </span>
-            {errors.password && (
-              <div className="text-red-500">{errors.password}</div>
-            )}
-          </div>
-          <div className="form-group">
-            <label htmlFor="department">Department</label>
-            <input
-              type="text"
-              id="department"
-              value={form.department}
-              onChange={(e) => setForm({ ...form, department: e.target.value })}
-              aria-describedby="department-error"
-            />
-            {errors.department && (
-              <p id="department-error" className="text-red-600">
-                {errors.department}
-              </p>
-            )}
-          </div>
-          <div className="form-group">
-            <label htmlFor="studentId">Student ID</label>
-            <input
-              type="text"
-              id="studentId"
-              value={form.studentId}
-              onChange={(e) => setForm({ ...form, studentId: e.target.value })}
-              aria-describedby="studentId-error"
-            />
-            {errors.studentId && (
-              <p id="studentId-error" className="text-red-600">
-                {errors.studentId}
-              </p>
-            )}
-          </div>
-          <div className="form-group">
-            <label htmlFor="firstName">First Name</label>
-            <input
-              type="text"
-              id="firstName"
-              value={form.firstName}
-              onChange={(e) => setForm({ ...form, firstName: e.target.value })}
-              aria-describedby="firstName-error"
-            />
-            {errors.firstName && (
-              <p id="firstName-error" className="text-red-600">
-                {errors.firstName}
-              </p>
-            )}
-          </div>
-          <div className="form-group">
-            <label htmlFor="middleName">Middle Name</label>
-            <input
-              type="text"
-              id="middleName"
-              value={form.middleName}
-              onChange={(e) => setForm({ ...form, middleName: e.target.value })}
-            />{" "}
-            {errors.middleName && (
-              <p id="middleName-error" className="text-red-600">
-                {errors.middleName}
-              </p>
-            )}
-          </div>
-          <div className="form-group">
-            <label htmlFor="lastName">Last Name</label>
-            <input
-              type="text"
-              id="lastName"
-              value={form.lastName}
-              onChange={(e) => setForm({ ...form, lastName: e.target.value })}
-              aria-describedby="lastName-error"
-            />
-            {errors.lastName && (
-              <p id="lastName-error" className="text-red-600">
-                {errors.lastName}
-              </p>
-            )}
-          </div>
-          <div className="form-group">
-            <label htmlFor="sex">Sex</label>
-            <select
-              id="sex"
-              value={form.sex}
-              onChange={(e) => setForm({ ...form, sex: e.target.value })}
-              aria-describedby="sex-error"
-            >
-              <option value="">Select Sex</option>
-              <option value="MALE">Male</option>
-              <option value="FEMALE">Female</option>
-            </select>
-            {errors.sex && (
-              <p id="sex-error" className="text-red-600">
-                {errors.sex}
-              </p>
-            )}
-          </div>
-          <div className="form-group mt-3">
-            <button type="submit">Submit</button>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="form-group">
+              <label htmlFor="faculty">Faculty</label>
+              <input
+                type="text"
+                id="faculty"
+                value={form.faculty}
+                onChange={(e) => setForm({ ...form, faculty: e.target.value })}
+                aria-describedby="faculty-error"
+              />
+              {errors.faculty && (
+                <p id="faculty-error" className="text-red-600">
+                  {errors.faculty}
+                </p>
+              )}
+            </div>
+            <div className="form-group relative">
+              <label htmlFor="password">New Password</label>
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                placeholder="Leave blank to keep current password"
+              />
+              <span
+                className="absolute right-2 top-8 cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+              </span>
+              {errors.password && (
+                <div className="text-red-500">{errors.password}</div>
+              )}
+            </div>
+            <div className="form-group">
+              <label htmlFor="department">Department</label>
+              <input
+                type="text"
+                id="department"
+                value={form.department}
+                onChange={(e) =>
+                  setForm({ ...form, department: e.target.value })
+                }
+                aria-describedby="department-error"
+              />
+              {errors.department && (
+                <p id="department-error" className="text-red-600">
+                  {errors.department}
+                </p>
+              )}
+            </div>
+            <div className="form-group">
+              <label htmlFor="studentId">Student ID</label>
+              <input
+                type="text"
+                id="studentId"
+                value={form.studentId}
+                onChange={(e) =>
+                  setForm({ ...form, studentId: e.target.value })
+                }
+                aria-describedby="studentId-error"
+              />
+              {errors.studentId && (
+                <p id="studentId-error" className="text-red-600">
+                  {errors.studentId}
+                </p>
+              )}
+            </div>
+            <div className="form-group">
+              <label htmlFor="firstName">First Name</label>
+              <input
+                type="text"
+                id="firstName"
+                value={form.firstName}
+                onChange={(e) =>
+                  setForm({ ...form, firstName: e.target.value })
+                }
+                aria-describedby="firstName-error"
+              />
+              {errors.firstName && (
+                <p id="firstName-error" className="text-red-600">
+                  {errors.firstName}
+                </p>
+              )}
+            </div>
+            <div className="form-group">
+              <label htmlFor="middleName">Middle Name</label>
+              <input
+                type="text"
+                id="middleName"
+                value={form.middleName}
+                onChange={(e) =>
+                  setForm({ ...form, middleName: e.target.value })
+                }
+              />{" "}
+              {errors.middleName && (
+                <p id="middleName-error" className="text-red-600">
+                  {errors.middleName}
+                </p>
+              )}
+            </div>
+            <div className="form-group">
+              <label htmlFor="lastName">Last Name</label>
+              <input
+                type="text"
+                id="lastName"
+                value={form.lastName}
+                onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+                aria-describedby="lastName-error"
+              />
+              {errors.lastName && (
+                <p id="lastName-error" className="text-red-600">
+                  {errors.lastName}
+                </p>
+              )}
+            </div>
+            <div className="form-group">
+              <label htmlFor="sex">Sex</label>
+              <select
+                id="sex"
+                value={form.sex}
+                onChange={(e) => setForm({ ...form, sex: e.target.value })}
+                aria-describedby="sex-error"
+              >
+                <option value="">Select Sex</option>
+                <option value="MALE">Male</option>
+                <option value="FEMALE">Female</option>
+              </select>
+              {errors.sex && (
+                <p id="sex-error" className="text-red-600">
+                  {errors.sex}
+                </p>
+              )}
+            </div>
+            <div className="form-group mt-3">
+              <button type="submit">Submit</button>
+            </div>
           </div>
         </form>
       </div>

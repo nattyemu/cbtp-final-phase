@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import Papa from "papaparse"; // Library for parsing CSV files
 import "./fileUpload.css";
 import AuthService from "../../../../Service/AuthService";
-
+import ClearIcon from "@mui/icons-material/Clear";
 function FileUpload({ handleBackToTable }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false); // Tracks upload state
@@ -101,7 +101,12 @@ function FileUpload({ handleBackToTable }) {
   };
 
   return (
-    <form className="file-upload-form" onSubmit={handleFileUpload}>
+    <form className="file-upload-form relative" onSubmit={handleFileUpload}>
+      <ClearIcon
+        onClick={handlePopTheTable}
+        className="absolute top-0 hover:text-red-400 right-0 ml-[-22px] text-[#141430]"
+        style={{ cursor: "pointer" }}
+      />
       <label htmlFor="file" className="file-upload-label">
         <div className={`file-upload-design ${isUploading ? "uploading" : ""}`}>
           <svg viewBox="0 0 640 512" height="1em">

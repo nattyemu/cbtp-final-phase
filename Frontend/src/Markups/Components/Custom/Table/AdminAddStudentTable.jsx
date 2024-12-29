@@ -89,7 +89,7 @@ function AdminAddStudentTable() {
           <AdminUpdateStudent user={selectedUser} removeUpdate={removeUpdate} />
           <ClearIcon
             onClick={click}
-            className="absolute top-0 right-0 ml-[-22px] text-[#141430]"
+            className="absolute top-0 right-[25%] ml-[-22px] hover:text-red-400 text-[#141430]"
             style={{ cursor: "pointer" }}
           />
         </div>
@@ -103,7 +103,7 @@ function AdminAddStudentTable() {
           <h2 className="text-center text-2xl text-black mt-[-12px] mb-4">
             Student Table
           </h2>
-          <TableContainer component={Paper} className="ml-32">
+          <TableContainer component={Paper} className="m-3">
             <Table sx={{ minWidth: 650 }} aria-label="student table">
               <TableHead>
                 <TableRow>

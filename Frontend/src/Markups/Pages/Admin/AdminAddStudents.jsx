@@ -30,7 +30,7 @@ function AdminAddStudents() {
 
   return (
     <>
-      <div className="user">
+      <div className="user m-0  ">
         <div className="dropdown">
           <button onClick={handleDropdownToggle} className="m-5 px-10 py-3">
             Add
@@ -54,25 +54,9 @@ function AdminAddStudents() {
             </div>
           )}
         </div>
-        {selectedOption === "form" && (
-          <div className="form-container relative">
-            <ClearIcon
-              onClick={handleBackToTable}
-              className="absolute top-0 right-0 m-5 text-[#141430]"
-              style={{ cursor: "pointer" }}
-            />
-            <AddStudent />
-          </div>
-        )}
+        {selectedOption === "form" && <AddStudent popup={handleBackToTable} />}
         {selectedOption === "file" && (
-          <div className="form-container relative">
-            <ClearIcon
-              onClick={handleBackToTable}
-              className="absolute top-0 right-0 m-5 text-[#141430]"
-              style={{ cursor: "pointer" }}
-            />
-            <FileUpload />
-          </div>
+          <FileUpload handleBackToTable={handleBackToTable} />
         )}
 
         {!showTable && selectedOption === "" && (

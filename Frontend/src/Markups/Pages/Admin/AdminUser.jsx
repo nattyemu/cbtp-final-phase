@@ -52,7 +52,7 @@ function AdminUser(props) {
     <>
       <div className="user">
         <div className="dropdown">
-          <button onClick={handleDropdownToggle} className="m-5 px-10 py-3">
+          <button onClick={handleDropdownToggle} className="mt-5 px-10 py-3">
             Add
           </button>
           {showDropdown && (
@@ -79,7 +79,7 @@ function AdminUser(props) {
           <div className="form-container relative">
             <ClearIcon
               onClick={handleBackToTable}
-              className="absolute top-0 right-0 m-5 text-[#141430]"
+              className="absolute top-0 right-[25%] m-5 hover:text-red-400 text-[#141430]"
               style={{ cursor: "pointer" }}
             />
             <AddUser />
@@ -87,21 +87,14 @@ function AdminUser(props) {
         )}
 
         {selectedOption === "file" && (
-          <div className="form-container relative">
-            <ClearIcon
-              onClick={handleBackToTable}
-              className="absolute top-0 right-0 m-5 text-[#141430]"
-              style={{ cursor: "pointer" }}
-            />
-            <FileUpload handleBackToTable={handleBackToTable} />
-          </div>
+          <FileUpload handleBackToTable={handleBackToTable} />
         )}
 
         {!showTable && selectedOption === "" && (
           <div className="form-container">
             <ClearIcon
               onClick={handleBackToTable}
-              className="px-5 py-3 m-5"
+              className="px-5 py-3 m-5 hover:text-red-400"
               style={{ cursor: "pointer" }}
             />
           </div>

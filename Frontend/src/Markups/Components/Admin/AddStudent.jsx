@@ -4,7 +4,8 @@ import "./AddUse.css";
 import { toast } from "react-toastify";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-function AddStudent() {
+import ClearIcon from "@mui/icons-material/Clear";
+function AddStudent({ popup }) {
   const initialFormState = {
     email: "",
     password: "",
@@ -144,6 +145,7 @@ function AddStudent() {
       if (response?.success) {
         toast.success(response?.message);
         setForm(initialFormState); // Reset form on success
+        popDown();
       } else {
         toast.error(response?.message);
       }
@@ -151,9 +153,16 @@ function AddStudent() {
       toast.error("Failed to add student");
     }
   };
-
+  const popDown = () => {
+    popup();
+  };
   return (
-    <div className="add-user p-5 w-screen items-center ">
+    <div className="add-user p-5 w-screen items-center relative">
+      <ClearIcon
+        onClick={popDown}
+        className="absolute top-0 right-0 hover:text-red-400 ml-[-22px] text-[#141430]"
+        style={{ cursor: "pointer" }}
+      />
       <div className="shadow-lg p-4 rounded bg-white ml-24">
         <h2 className="text-center text-2xl font-bold mb-6">Add Student</h2>
 
