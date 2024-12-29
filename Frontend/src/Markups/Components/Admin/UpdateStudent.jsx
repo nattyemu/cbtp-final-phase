@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import AuthService from "../../../Service/AuthService";
 import { toast } from "react-toastify";
-
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 function UpdateStudent({ user }) {
   const initialFormState = {
     faculty: "",
@@ -10,6 +11,7 @@ function UpdateStudent({ user }) {
     firstName: "",
     middleName: "",
     lastName: "",
+    password: "",
     sex: "",
   };
 
@@ -24,7 +26,7 @@ function UpdateStudent({ user }) {
   });
 
   const [errors, setErrors] = useState({});
-
+  const [showPassword, setShowPassword] = useState(false);
   useEffect(() => {
     if (user) {
       setForm({
@@ -34,6 +36,7 @@ function UpdateStudent({ user }) {
         firstName: user?.profile?.firstName,
         middleName: user?.profile?.middleName,
         lastName: user?.profile?.lastName,
+        password: "",
         sex: user?.profile?.sex,
       });
     }
@@ -46,11 +49,17 @@ function UpdateStudent({ user }) {
     if (!form.faculty.trim()) newErrors.faculty = "Faculty is required.";
     else if (form.faculty.trim().length < 6)
       newErrors.faculty = "Faculty must be at least 6 characters.";
+    else if (form.faculty.trim().length > 42) {
+      newErrors.faculty = "Faculty must be less than 42 characters.";
+    }
 
     if (!form.department.trim())
       newErrors.department = "Department is required.";
     else if (form.department.trim().length < 2)
       newErrors.department = "Department must be at least 2 characters.";
+    else if (form.department.trim().length > 42) {
+      newErrors.department = "Department must be less than 42 characters.";
+    }
 
     if (!form.studentId.trim()) newErrors.studentId = "Student ID is required.";
     else if (form.studentId.trim().length != 9)
@@ -59,15 +68,39 @@ function UpdateStudent({ user }) {
     if (!form.firstName.trim()) newErrors.firstName = "First Name is required.";
     else if (form.firstName.trim().length < 2)
       newErrors.firstName = "First Name must be at least 2 characters.";
+    else if (form.firstName.trim().length > 42) {
+      newErrors.firstName = "First Name must be less than 42 characters.";
+    }
     if (!form.middleName.trim())
       newErrors.middleName = "First Name is required.";
     else if (form.middleName.trim().length < 2)
       newErrors.middleName = "First Name must be at least 2 characters.";
-
+    else if (form.middleName.trim().length > 42) {
+      newErrors.middleName = "Middle Name must be less than 42 characters.";
+    }
+    if (form.password) {
+      if (!form.password) {
+        newErrors.password = "Password is required.";
+      } else if (
+        !/(?=.*[A-Z])/.test(form.password) || // At least one uppercase letter
+        !/(?=.*[a-z])/.test(form.password) || // At least one lowercase letter
+        !/(?=.*[0-9])/.test(form.password) || // At least one number
+        !/(?=.*[@#:$%^&*!])/.test(form.password) // At least one special character
+      ) {
+        newErrors.password =
+          "Password must contain an uppercase letter, a lowercase letter, a number, and a special character.";
+      } else if (form.password.length < 8) {
+        newErrors.password = "Password must be at least 8 characters.";
+      } else if (form.password.length > 42) {
+        newErrors.password = "Password must be at most 42 characters.";
+      }
+    }
     if (!form.lastName.trim()) newErrors.lastName = "Last Name is required.";
     else if (form.lastName.trim().length < 2)
       newErrors.lastName = "Last Name must be at least 2 characters.";
-
+    else if (form.lastName.trim().length > 42) {
+      newErrors.lastName = "Last Name must be less than 42 characters.";
+    }
     if (!form.sex) newErrors.sex = "Gender is required.";
 
     setErrors(newErrors);
@@ -114,6 +147,25 @@ function UpdateStudent({ user }) {
               <p id="faculty-error" className="text-red-600">
                 {errors.faculty}
               </p>
+            )}
+          </div>
+          <div className="form-group relative">
+            <label htmlFor="password">New Password</label>
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              value={form.password}
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              placeholder="Leave blank to keep current password"
+            />
+            <span
+              className="absolute right-2 top-8 cursor-pointer"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+            </span>
+            {errors.password && (
+              <div className="text-red-500">{errors.password}</div>
             )}
           </div>
           <div className="form-group">

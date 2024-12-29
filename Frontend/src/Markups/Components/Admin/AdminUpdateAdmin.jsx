@@ -42,6 +42,8 @@ function AdminUpdateAdmin({ user, removeUpdate }) {
       newErrors.email = "Email must be at least 8 characters.";
     } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(form.email)) {
       newErrors.email = "Email must be a valid format.";
+    } else if (form.email.length > 42) {
+      newErrors.email = "Email must be less than 42 characters.";
     }
     // Validate password (optional)
     if (form.password) {
@@ -51,12 +53,16 @@ function AdminUpdateAdmin({ user, removeUpdate }) {
         !/(?=.*[A-Z])/.test(form.password) || // At least one uppercase letter
         !/(?=.*[a-z])/.test(form.password) || // At least one lowercase letter
         !/(?=.*[0-9])/.test(form.password) || // At least one number
-        !/(?=.*[@#:$%^&*!]).{8,32}/.test(form.password) // At least one special character
+        !/(?=.*[@#:$%^&*!])/.test(form.password) // At least one special character
       ) {
         newErrors.password =
           "Password must contain an uppercase letter, a lowercase letter, a number, and a special character.";
       } else if (form.password.length < 8) {
         newErrors.password = "Password must be at least 8 characters.";
+      } else if (form.password.length > 42) {
+        newErrors.password = "Password must be less than 42 characters.";
+      } else if (form.password.length > 42) {
+        newErrors.password = "Password must be at most 42 characters.";
       }
     }
     // Validate role
@@ -69,6 +75,8 @@ function AdminUpdateAdmin({ user, removeUpdate }) {
       newErrors.firstName = "First Name must be at least 2 characters.";
     } else if (!nameRegex.test(form.firstName)) {
       newErrors.firstName = "First Name must not contain symbols or numbers.";
+    } else if (form.firstName.length > 42) {
+      newErrors.firstName = "First Name must be less than 42 characters.";
     }
 
     // Validate middle name
@@ -78,6 +86,8 @@ function AdminUpdateAdmin({ user, removeUpdate }) {
       newErrors.middleName = "Middle Name must be at least 2 characters.";
     } else if (!nameRegex.test(form.middleName)) {
       newErrors.middleName = "Middle Name must not contain symbols or numbers.";
+    } else if (form.middleName.length > 42) {
+      newErrors.middleName = "Middle Name must be less than 42 characters.";
     }
     // Validate last name
     if (!form.lastName) {
@@ -86,6 +96,8 @@ function AdminUpdateAdmin({ user, removeUpdate }) {
       newErrors.lastName = "Last Name must be at least 2 characters.";
     } else if (!nameRegex.test(form.lastName)) {
       newErrors.lastName = "Last Name must not contain symbols or numbers.";
+    } else if (form.lastName.length > 42) {
+      newErrors.lastName = "Last Name must be less than 42 characters.";
     }
     // Validate sex
     if (!form.sex) newErrors.sex = "Gender is required.";

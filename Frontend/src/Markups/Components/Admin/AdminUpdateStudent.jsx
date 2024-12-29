@@ -54,31 +54,31 @@ function AdminUpdateStudent({ user, removeUpdate }) {
     if (
       !form.firstName ||
       form.firstName.length < 2 ||
-      form.firstName.length > 50 ||
+      form.firstName.length > 42 ||
       !nameRegex.test(form.firstName)
     ) {
       formErrors.firstName =
-        "First Name is required, must be 2-50 characters, and cannot contain invalid symbols.";
+        "First Name is required, must be 2-42 characters, and cannot contain invalid symbols.";
     }
 
     if (
       !form.lastName ||
       form.lastName.length < 2 ||
-      form.lastName.length > 50 ||
+      form.lastName.length > 42 ||
       !nameRegex.test(form.lastName)
     ) {
       formErrors.lastName =
-        "Last Name is required, must be 2-50 characters, and cannot contain invalid symbols.";
+        "Last Name is required, must be 2-42 characters, and cannot contain invalid symbols.";
     }
 
     if (
       form.middleName &&
       (form.middleName.length < 2 ||
-        form.middleName.length > 50 ||
+        form.middleName.length > 42 ||
         !nameRegex.test(form.middleName))
     ) {
       formErrors.middleName =
-        "Middle Name must be 2-50 characters and cannot contain invalid symbols.";
+        "Middle Name must be 2-42 characters and cannot contain invalid symbols.";
     }
 
     if (!form.email) {
@@ -87,6 +87,8 @@ function AdminUpdateStudent({ user, removeUpdate }) {
       formErrors.email = "Email must be at least 8 characters.";
     } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(form.email)) {
       formErrors.email = "Email must be a valid format.";
+    } else if (form.email.length > 42) {
+      formErrors.email = "Email must be less than 42 characters.";
     }
     if (!form.role) {
       formErrors.role = "Role is required.";
@@ -99,27 +101,29 @@ function AdminUpdateStudent({ user, removeUpdate }) {
         !/(?=.*[A-Z])/.test(form.password) || // At least one uppercase letter
         !/(?=.*[a-z])/.test(form.password) || // At least one lowercase letter
         !/(?=.*[0-9])/.test(form.password) || // At least one number
-        !/(?=.*[@#:$%^&*!]).{8,32}/.test(form.password) // At least one special character
+        !/(?=.*[@#:$%^&*!])/.test(form.password) // At least one special character
       ) {
         formErrors.password =
           "Password must contain an uppercase letter, a lowercase letter, a number, and a special character.";
       } else if (form.password.length < 8) {
         formErrors.password = "Password must be at least 8 characters.";
+      } else if (form.password.length > 42) {
+        formErrors.password = "Password must be at most 42 characters.";
       }
     }
 
-    if (!form.faculty || form.faculty.length > 50) {
+    if (!form.faculty || form.faculty.length > 42) {
       formErrors.faculty =
-        "Faculty is required and cannot exceed 50 characters.";
+        "Faculty is required and cannot exceed 42 characters.";
     }
 
     if (
       !form.department ||
       form.department.length < 2 ||
-      form.department.length > 50
+      form.department.length > 42
     ) {
       formErrors.department =
-        "Department is required and must be 2-50 characters.";
+        "Department is required and must be 2-42 characters.";
     }
 
     if (!form.sex) {
@@ -172,7 +176,6 @@ function AdminUpdateStudent({ user, removeUpdate }) {
                 id="email"
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
-                maxLength={100}
               />
               {errors.email && (
                 <div className="text-red-500">{errors.email}</div>
@@ -187,7 +190,6 @@ function AdminUpdateStudent({ user, removeUpdate }) {
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
                 placeholder="Leave blank to keep current password"
-                maxLength={20}
               />
               <span
                 className="absolute right-2 top-8 cursor-pointer"
@@ -229,7 +231,6 @@ function AdminUpdateStudent({ user, removeUpdate }) {
                 id="faculty"
                 value={form.faculty}
                 onChange={(e) => setForm({ ...form, faculty: e.target.value })}
-                maxLength={50}
               />
               {errors.faculty && (
                 <div className="text-red-500">{errors.faculty}</div>
@@ -245,7 +246,6 @@ function AdminUpdateStudent({ user, removeUpdate }) {
                 onChange={(e) =>
                   setForm({ ...form, department: e.target.value })
                 }
-                maxLength={50}
               />
               {errors.department && (
                 <div className="text-red-500">{errors.department}</div>
@@ -261,7 +261,6 @@ function AdminUpdateStudent({ user, removeUpdate }) {
                 onChange={(e) =>
                   setForm({ ...form, studentId: e.target.value })
                 }
-                maxLength={9}
               />
               {errors.studentId && (
                 <div className="text-red-500">{errors.studentId}</div>
@@ -277,7 +276,6 @@ function AdminUpdateStudent({ user, removeUpdate }) {
                 onChange={(e) =>
                   setForm({ ...form, firstName: e.target.value })
                 }
-                maxLength={50}
               />
               {errors.firstName && (
                 <div className="text-red-500">{errors.firstName}</div>
@@ -293,7 +291,6 @@ function AdminUpdateStudent({ user, removeUpdate }) {
                 onChange={(e) =>
                   setForm({ ...form, middleName: e.target.value })
                 }
-                maxLength={50}
               />
               {errors.middleName && (
                 <div className="text-red-500">{errors.middleName}</div>
@@ -307,7 +304,6 @@ function AdminUpdateStudent({ user, removeUpdate }) {
                 id="lastName"
                 value={form.lastName}
                 onChange={(e) => setForm({ ...form, lastName: e.target.value })}
-                maxLength={50}
               />
               {errors.lastName && (
                 <div className="text-red-500">{errors.lastName}</div>
