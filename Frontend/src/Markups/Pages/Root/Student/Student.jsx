@@ -29,7 +29,7 @@ function Student() {
 
   return (
     <div className="">
-      <div className="flex flex-col lg:flex-row">
+      <div className="flex flex-col lg:flex-row ">
         {/* Sidebar */}
         <div className="bg-[#141430] p-2 shadow-md w-[300px] h-auto lg:h-screen">
           {/* Profile Section */}
@@ -74,7 +74,7 @@ function Student() {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 p-6">
+        <div className="flex-1 p-6 flex justify-center items-center ">
           {activeTab === "request" && <Request />}
           {activeTab === "progress" && <ViewProgress />}
           {activeTab === "clearance" && <Clerance />}

@@ -35,7 +35,7 @@ function ViewProgress() {
     );
   }
   return (
-    <div className=" flex flex-col shadow-md md:w-full lg:w-[80%] justify-center border-[#141430]">
+    <div className=" flex flex-col shadow-md md:w-full lg:w-[80%] justify-center ali border-[#141430]">
       <div className=" flex flex-col gap-2 p-5 mx-3 sm:text-[17px] md:text-[19px] lg:text-[23px]">
         <div className=" grid grid-cols-3 font-medium text-gray-950 gap-0 ">
           <div>Student Id</div>
