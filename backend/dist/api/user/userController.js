@@ -481,7 +481,7 @@ const usersController = {
           .json({ message: "Invalid credential", success: false });
       }
 
-      // Retrieve user profile data if it exists
+      // Retrieve user profile data
       const userProfileData = await prisma.userProfile.findFirst({
         where: { userId: user?.id },
       });
@@ -498,11 +498,9 @@ const usersController = {
                 createdAt: true,
                 profile: true,
                 studentProfile: true,
-                // Uncomment if needed:
                 request: true,
                 result: true,
                 clearance: true,
-                // reports: true,
               },
             },
           },
@@ -532,17 +530,17 @@ const usersController = {
         },
       });
       userProfile = { ...userProfile, role: sendRole };
-      // Create token payload
+
+      // Token payload
       const payload = {
         id: user.id,
-        role: user?.role,
-        firstName: userProfile?.user?.profile?.firstName || null, // Simplified access with optional chaining
+        role: user.role,
+        firstName: userProfile?.user?.profile?.firstName || null,
       };
 
-      // Generate JWT token
-      const token = jwt.sign(payload, SECRET);
+      // Generate JWT token with expiration (e.g., 1 hour)
+      const token = jwt.sign(payload, SECRET, { expiresIn: "1h" });
 
-      // Send the response back to the client
       return res.status(200).json({
         token,
         data: userProfile,

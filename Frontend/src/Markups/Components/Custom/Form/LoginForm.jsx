@@ -7,6 +7,7 @@ import { userContext } from "../../../../Context/Authcontext";
 import getAuth from "../../../../Utilities/AuthHeader";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { jwtDecode } from "jwt-decode";
 
 function LoginForm() {
   const {
@@ -172,10 +173,23 @@ function LoginForm() {
     try {
       const response = await UserService.login(form);
       if (response?.success) {
-        localStorage.setItem(
-          "user",
-          JSON.stringify({ userToken: response?.token })
-        );
+        const { token } = response;
+
+        // Decode token to get expiration time
+        const decoded = jwtDecode(token);
+        const expirationTime = decoded.exp * 1000 - Date.now();
+
+        // Save token to local storage
+        localStorage.setItem("user", JSON.stringify({ userToken: token }));
+
+        // Auto-logout on token expiry
+        setTimeout(() => {
+          localStorage.removeItem("user");
+          setIsLogged(false);
+          toast.error("Session expired. Please login again.");
+          navigate("/login");
+        }, expirationTime);
+
         toast.success(response.message);
 
         navigateToRolePage(response?.data);
