@@ -69,6 +69,8 @@ function LoginForm() {
       errorMessage = 'Email must contain only one "@"';
     } else if (email && email.lastIndexOf(".") < email.indexOf("@")) {
       errorMessage = "Expected format: example@gmail.com";
+    } else if (form.email.length > 42) {
+      errorMessage.email = "Email must be less than 42 characters.";
     }
 
     setForm({ ...form, email });
@@ -84,8 +86,8 @@ function LoginForm() {
   };
 
   const validatePassword = (password) => {
-    if (password.length < 8 || password.length > 54) {
-      return "Password must be between 8 and 54 characters long";
+    if (password.length < 8 || password.length > 42) {
+      return "Password must be between 8 and 42 characters long";
     }
     return "";
   };
