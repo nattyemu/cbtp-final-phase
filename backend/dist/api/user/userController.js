@@ -885,7 +885,7 @@ const usersController = {
       if (existingUser?.id) {
         return res.status(403).json({
           success: false,
-          message: `This ${req.body.email} Email has already been registered `,
+          message: `${req.body.email} Email has already been registered `,
         });
       }
       if (role === "STUDENT") {
