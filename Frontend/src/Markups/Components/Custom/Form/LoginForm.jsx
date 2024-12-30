@@ -250,6 +250,14 @@ function LoginForm() {
               </div>
             )}
           </div>
+          <div className="form-group">
+            <Link
+              to="/forgetPassword"
+              className="forgot-password-link hover:text-black "
+            >
+              Forgot Password?
+            </Link>
+          </div>
           <button type="submit" className="bg-gray-900 text-white py-2 w-full">
             Login
           </button>

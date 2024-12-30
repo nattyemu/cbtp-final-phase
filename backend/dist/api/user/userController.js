@@ -659,16 +659,16 @@ const usersController = {
       });
 
       // Prepare the JWT token payload
-      const payload = {
-        id: user.id,
-        role: user.role,
-        firstName: user.profile?.firstName || null,
-      };
-      const token = jwt.sign(payload, SECRET);
+      // const payload = {
+      //   id: user.id,
+      //   role: user.role,
+      //   firstName: user.profile?.firstName || null,
+      // };
+      // const token = jwt.sign(payload, SECRET);
 
       // Generate a 6-digit OTP
       const otp = generateOTP();
-
+      // console.log(otp);
       // Store the OTP in the database
       await prisma.user.update({
         where: { id: user.id },
@@ -676,7 +676,7 @@ const usersController = {
       });
 
       // Send the OTP via email
-      const emailDelivered = await sendEmail(user.email, `Your OTP is: ${otp}`);
+      const emailDelivered = await sendEmail(user.email, `: ${otp}`);
       if (!emailDelivered.success) {
         return next(
           new UnprocessableEntity(
@@ -691,13 +691,13 @@ const usersController = {
       // Send response
       res.status(200).json({
         success: true,
-        message: emailDelivered.message,
+        message: "check your email and verify the otp",
         data: {
           id: user.id,
           email: user.email,
           role: user.role,
         },
-        token,
+        // token,
       });
     } catch (error) {
       if (error instanceof UnprocessableEntity) {
@@ -712,8 +712,9 @@ const usersController = {
   confirmOtp: async (req, res, next) => {
     try {
       // Fetch the user from the database
+      userSchema.confirmOtp.parse(req.body);
       const user = await prisma.user.findFirst({
-        where: { id: +req.user.id },
+        where: { id: +req.body.id },
         include: { profile: true },
       });
 
@@ -731,17 +732,13 @@ const usersController = {
 
       // Extract OTP from the request body
       const { otp } = req.body;
-
+      // console.log("first", user);
       // Validate the OTP
       if (otp !== user.otp) {
-        return next(
-          new UnprocessableEntity(
-            "Incorrect OTP",
-            403,
-            ErrorCode.INCORRECT_OTP,
-            null
-          )
-        );
+        return res.status(403).json({
+          message: "Incorrect OTP",
+          success: false,
+        });
       }
 
       // Update the user by removing the OTP
@@ -751,18 +748,18 @@ const usersController = {
       });
 
       // Create a JWT token
-      const payload = {
-        id: user.id,
-        role: user.role,
-        firstName: user.profile?.firstName || null,
-      };
-      const token = jwt.sign(payload, SECRET);
+      // const payload = {
+      //   id: user.id,
+      //   role: user.role,
+      //   firstName: user.profile?.firstName || null,
+      // };
+      // const token = jwt.sign(payload, SECRET);
 
       // Send the response
       return res.status(200).json({
         message: "OTP confirmed",
         data: updatedUser,
-        token,
+        // token,
         success: true,
       });
     } catch (error) {
@@ -790,23 +787,13 @@ const usersController = {
       }
 
       // Check if the OTP is confirmed
-      if (req.user.otp === "000000") {
-        return next(
-          new UnprocessableEntity(
-            "The OTP is not confirmed yet",
-            403,
-            ErrorCode.OTP_NOT_CONFIRMED, // Use a more specific error code
-            null
-          )
-        );
-      }
 
       // Hash the new password
       const hashedPassword = bcrypt.hashSync(req.body.password, 10);
 
       // Update the user's password in the database
       const updatedUser = await prisma.user.update({
-        where: { id: req.user.id },
+        where: { id: req.body.id },
         data: {
           password: hashedPassword, // Save the hashed password
           otp: null, // Reset OTP

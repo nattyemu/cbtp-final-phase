@@ -46,12 +46,12 @@ usersRouter.post(
 );
 usersRouter.post(
   "/confirm/otp",
-  [userAuth],
+
   errorHandler(usersController.confirmOtp)
 );
 usersRouter.post(
   "/new/password",
-  [userAuth],
+
   errorHandler(usersController.newPassword)
 );
 usersRouter.put(

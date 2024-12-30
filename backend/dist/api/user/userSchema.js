@@ -120,15 +120,20 @@ const userSchema = {
   }),
   //forget password
   forgetPassowd: z.object({
-    email: z.string().email(),
+    email: z.string().email().min(5).max(42),
   }),
   //
   getRejected: z.object({
     role: z.string(),
   }),
+  confirmOtp: z.object({
+    id: z.number(),
+    otp: z.string(),
+  }),
   newPassword: z.object({
-    password: z.string().min(6),
-    cpassword: z.string().min(6),
+    password: z.string().min(8),
+    cpassword: z.string().min(8),
+    id: z.number(),
   }),
 };
 export default userSchema;
